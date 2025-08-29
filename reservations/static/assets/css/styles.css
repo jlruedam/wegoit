@@ -1,0 +1,198 @@
+html, body {
+  height: 100%;            
+  margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    font-family: "poppins";
+    display: flex;
+    flex-direction: column;  
+    min-height: 100vh; 
+    overflow: auto;       
+}
+
+#splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white; 
+  z-index: 9999;
+}
+
+#splash img {
+  width: clamp(500px, 60dvw, 800px);
+  height: auto;
+  filter: drop-shadow(0 0 15px rgba(0,0,0,0.1));
+  animation: fadeOut 1s ease forwards;
+  animation-delay: 2s; 
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+
+#contenido {
+  flex: 1; 
+  width: 100%;
+}
+
+:root{
+    --azul-oscuro:#0D596A;
+    --azul-marino:#1B9899;
+    --botton-color:hsl(180, 70%, 35%);
+    --light-gray:#F5F0E9;
+    --placeholders-color:#1B9899;
+    --background-admin:hsl(180, 70%, 35%);
+    --border-bottom:4px solid #0D596A;
+}
+
+.header-container{
+    width: 100%;
+    height: auto;
+    max-height: 230px;
+    display: flex;
+    justify-content: center;
+}
+
+.header-container img{
+    width: 100%;
+    max-width: 300px;
+    filter: drop-shadow(0 0 15px rgba(0,0,0,0.1));
+}
+
+.login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: clamp(10px,10dvw,15px);
+}
+
+h1{
+    text-align: center;
+    color: var(--azul-marino);
+    width: clamp(200px,80%,300px);
+}
+
+.login input{
+    border: none;
+    border-bottom: var(--border-bottom);
+    width: 40%;
+    max-width: 150px;
+    font-size:clamp(1.3rem,7dvw,1.4rem);
+}
+
+input::placeholder{
+    text-align: center;
+    color: var(--placeholders-color);
+    font-weight: bold;
+}
+
+.login button{
+ border-radius: 15px;
+ padding: 7px 21px;
+ width: 200px;
+ font-size: 1.1rem;
+ margin-top: 5px;
+ background-color: var(--botton-color);
+ border: none;
+ font-weight: bold;
+ color: white;
+}
+
+
+.footer {
+    background-color: var(--azul-oscuro);
+    color: white;
+    width: 100%;
+    height: 60px; 
+    display: flex;
+    align-items: center;  
+    justify-content: center; 
+    bottom: 0;
+}
+
+
+@media screen and (max-width:949px) {
+    .container form {
+        margin-bottom: 40px; 
+    }
+}
+
+
+.background{
+    display: none;
+}
+
+.container{
+    width: 100%;
+    min-height: calc(100vh - 60px); 
+    margin-bottom: 0;
+}
+
+@media screen and (min-width:950px) {
+    .container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0;
+        height: auto;
+        min-height: calc(100vh - 60px);
+    }
+
+    .container form{
+        background-color: rgba(255, 255, 255, 0.409);
+        width: clamp(150px,27%,380px);
+        margin: 20px;
+        padding-bottom: 30px;
+        max-height: 380px;
+        border-radius: 10px;
+        backdrop-filter: blur(9px);
+    }
+
+    form h1{
+        width: 90%;
+    }
+
+    .header-container{
+        width: auto;
+    }
+
+    .background {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("img/foto yate.jpg");
+        background-size: cover;
+        background-position: center; 
+        background-repeat: no-repeat;
+        z-index: -1; 
+    
+    }
+
+    .login input{
+        background-color: rgba(255, 255, 255, 0);
+        width: 50%;
+        max-width: none;
+    }
+
+    .login{
+        width: auto;
+        height: auto;
+    }
+}

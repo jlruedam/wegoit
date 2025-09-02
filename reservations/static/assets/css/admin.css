@@ -1,0 +1,147 @@
+:root{
+    --azul-oscuro:#0D596A;
+    --azul-marino:#1B9899;
+    --botton-color:hsl(180, 70%, 35%);
+    --light-gray:#F5F0E9;
+    --placeholders-color:#1B9899;
+    --background-admin:hsl(180, 70%, 35%,20%);
+    --border-bottom:4px solid #0D596A;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "poppins";
+}
+
+body{
+    width: 100%;
+    height: 100dvh;
+}
+
+/* header */
+
+.container1{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--azul-oscuro);
+    color: white;
+    padding: 2.5px 0;
+}
+
+.container1 h2{
+    font-size: 1.2rem;
+    padding-left: 5px;
+}
+
+.login-panel{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.login-panel p{
+  font-size: 1rem;
+}
+
+.login-panel-selector span{
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.login-panel-selector:hover{
+    color: var(--light-gray);
+    transition: 1.5s ease;
+}
+
+
+#lateral-input{
+    display: none;
+}
+
+#lateral-input:checked ~ nav{
+    display: block;
+}
+
+.nav-container span{
+    color: var(--azul-oscuro);
+    font-size: 1.8rem;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.option-panel{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--light-gray);
+    color: var(--azul-marino);
+}
+
+.option-panel h2{
+    font-size: 1.2rem;
+    margin-right: 20px;
+}
+
+nav{
+    position: absolute;
+    width: auto;
+    z-index: 10;
+    display: none;
+}
+
+nav ul{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 10px 5px;
+    background-color: var(--light-gray);
+    min-height: 100dvh;
+    padding-right: 10px;
+}
+
+.links{
+    text-decoration: none;
+    color: var(--azul-marino);
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-bottom: 1.5px solid var(--azul-oscuro);
+    padding-bottom: 1px;
+}
+
+.links:hover{
+    color: var(--azul-oscuro);
+    border-bottom: none;
+    text-shadow: 0 0 2px hsl(0, 0%, 0%,25%);
+}
+
+
+html, body {
+  height: 100%;            /* El body ocupa toda la ventana */
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;  
+  overflow: hidden;
+}
+
+main {
+  flex: 1;                 
+  background-color:white;
+  width: 100%;
+}
+
+footer {
+  background-color: var(--azul-oscuro);
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  z-index: 20;
+}

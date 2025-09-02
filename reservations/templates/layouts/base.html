@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
 
+
     <!-- Tipografías -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
     <!-- Estilos base -->
     <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
@@ -19,11 +21,14 @@
 </head>
 <body>
     
-
+ 
     {% block content %}{% endblock %}
 
     {% include 'includes/footer.html' %}
 
+   
+
+    
     
     <!-- JS de jQuery y DataTables -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>

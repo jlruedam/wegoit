@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Reservas del Tour{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tours/css/reservations.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Reservas para {{ schedule.tour.tour_name }} - {{ schedule.date }} {{ schedule.start_time }}</h2>
+<table id="reservationTable" class="display responsive nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Pax</th>
+            <th>Pago Neto</th>
+            <th>Saldo Pendiente</th>
+            <th>Agencia</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in reservations %}
+        <tr>
+            <td>{{ r.customer_name }}</td>
+            <td>{{ r.pax }}</td>
+            <td>{{ r.net_payment }}</td>
+            <td>{{ r.pending_balance }}</td>
+            <td>{{ r.agency }}</td>
+            <td>{{ r.status }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'tours/js/reservations.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#reservationTable').DataTable();
+    });
+</script>
+{% endblock %}

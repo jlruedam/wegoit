@@ -1,0 +1,25 @@
+h2 {
+    margin-bottom: 15px;
+    color: #004080;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+th {
+    background-color: #e6f0ff;
+    color: #004080;
+}
+
+a {
+    color: #004080;
+    text-decoration: underline;
+}

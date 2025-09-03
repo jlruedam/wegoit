@@ -1,0 +1,44 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Lista de Tours{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/tours.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2>Tours Disponibles</h2>
+<table id="tourTable" class="display responsive nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio Base</th>
+            <th>Capacidad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tour in tours %}
+        <tr>
+            <td>{{ tour.tour_name }}</td>
+            <td>{{ tour.base_price }}</td>
+            <td>{{ tour.default_capacity }}</td>
+            <td>
+                <a href="{% url 'tours:schedule_list' tour.id %}">Ver Horarios</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'assets/js/tours.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#tourTable').DataTable();
+    });
+</script>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Tour, TourSchedule, Reservation, Agency
+from django.db.models import Sum
 
 
 # Create your views here.
@@ -8,6 +9,17 @@ from .models import Tour, TourSchedule, Reservation, Agency
 def home(request):
     ctx = {}
     return render(request, 'home/index.html', ctx)
+
+
+def schedule_dashboard(request):
+    schedules = TourSchedule.objects.all()
+    
+    # Añadir la cantidad de cupos disponibles a cada schedule
+    for schedule in schedules:
+        reserved_pax = schedule.reservations.aggregate(total=Sum('pax'))['total'] or 0
+        schedule.available_spots = schedule.capacity - reserved_pax
+    
+    return render(request, "home/schedule_dashboard.html", {"schedules": schedules})
 
 # ---------------- TOUR ----------------
 @login_required

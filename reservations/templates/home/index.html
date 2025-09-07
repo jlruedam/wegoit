@@ -1,20 +1,37 @@
-{% extends 'layouts/base.html' %}
+{% extends "layouts/base.html" %}
 {% load static %}
 
-{% block title %}TourManager Cartagena - index{% endblock %}
+{% block title %}Home {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+{% endblock %}
 
 {% block content %}
 
+<h2>Tours Programados</h2>
 
-    <div>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque incidunt odio vitae. Assumenda fuga dolorum
-        obcaecati non odit doloremque dicta, laborum tempore nesciunt ut impedit eos incidunt omnis, tempora quod id eius
-        quae expedita maxime! Voluptatem molestias repellat enim fugiat illum, sunt iure at labore dolorem blanditiis quas
-        sequi, fugit ratione. Porro deserunt, cupiditate repudiandae suscipit libero assumenda sequi ut voluptates, culpa
-        cum, voluptatum possimus necessitatibus iusto veniam facilis accusantium corporis fugiat! Enim doloremque delectus
-        laborum repellendus quidem culpa repellat, consectetur provident eum ullam quae tenetur porro odio sed magni, vel
-        nemo iusto perferendis fugit? Vel repellendus incidunt minus ex?
+<div class="card-container">
+    {% for schedule in schedules %}
+    <div class="card">
+        <h3>{{ schedule.tour.tour_name }}</h3>
+        <p><strong>Fecha:</strong> {{ schedule.date }}</p>
+        <p><strong>Hora:</strong> {{ schedule.start_time }}</p>
+        <p><strong>Capacidad:</strong> {{ schedule.capacity }}</p>
+        <p><strong>Cupos disponibles:</strong> {{ schedule.available_spots }}</p>
+        <div class="card-buttons">
+            <a href="" class="btn btn-primary">Nueva Reserva</a>
+            <a href="{% url 'tours:reservation_list' schedule.id %}" class="btn btn-secondary">Ver Reservas</a>
+        </div>
+        <p>{{ schedule.opened }}</p>
+        <p>{{ schedule.tour.active }}</p>
     </div>
-
+    {% empty %}
+    <p>No hay horarios disponibles.</p>
+    {% endfor %}
+</div>
 {% endblock %}
 
+{% block extra_js %}
+<script src="{% static 'tours/js/dashboard.js' %}"></script>
+{% endblock %}

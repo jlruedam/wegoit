@@ -5,8 +5,7 @@ app_name = "tours"
 
 urlpatterns = [
 
-    path('', views.schedule_dashboard, name='home'),
-    path("dashboard/schedules/", views.schedule_dashboard, name="schedule_dashboard"),
+    path('', views.home, name='home'),
     path("tours/", views.tour_list, name="tour_list"),
     path("tours/<int:tour_id>/schedules/", views.schedule_list, name="schedule_list"),
     path("schedules/<int:schedule_id>/reservations/", views.reservation_list, name="reservation_list"),

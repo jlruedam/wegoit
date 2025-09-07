@@ -21,9 +21,12 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {% include 'includes/header.html' %}
+    {% if request.user.is_authenticated %}
+        {% include 'includes/header.html' %}
+    {% endif %}
     <main>
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
     {% include 'includes/footer.html' %}
 

@@ -11,7 +11,7 @@ def login_view(request):
         print(user)
         if user is not None:
             login(request, user)
-            return redirect('home')  # Cambia a la ruta principal de tu app
+            return redirect('tours:home')  # Cambia a la ruta principal de tu app
         else:
             print("NO LOGIN")
             messages.error(request, 'Usuario o contraseña incorrectos.')
@@ -20,4 +20,4 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('accounts:login')

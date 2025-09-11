@@ -110,7 +110,7 @@ nav ul{
     color: var(--azul-marino);
     font-size: 1.1rem;
     font-weight: bold;
-    border-bottom: 1.5px solid var(--azul-oscuro);
+    /* border-bottom: 1.5px solid var(--azul-oscuro); */
     padding-bottom: 1px;
 }
 
@@ -129,7 +129,7 @@ html, body {
 body {
   display: flex;
   flex-direction: column;  
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 main {

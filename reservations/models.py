@@ -31,7 +31,7 @@ class Tour(models.Model):
 
 class TourSchedule(models.Model):
     tour = models.ForeignKey(
-        Tour,
+        "Tour",
         on_delete=models.CASCADE,
         related_name="schedules",
         verbose_name="Tour"
@@ -45,10 +45,20 @@ class TourSchedule(models.Model):
         verbose_name = "Horario de tour"
         verbose_name_plural = "Horarios de tours"
         ordering = ["-date", "start_time"]
-        unique_together = ("tour", "date", "start_time")  # evita duplicados
+        unique_together = ("tour", "date", "start_time")
 
     def __str__(self):
         return f"{self.tour.tour_name} - {self.date} {self.start_time}"
+
+    @property
+    def reserved_spots(self):
+        # suma de pax en todas las reservaciones de este schedule
+        return self.reservations.aggregate(total=models.Sum("pax"))["total"] or 0
+
+    @property
+    def available_spots(self):
+        # capacidad total del horario menos los cupos ya reservados
+        return self.capacity - self.reserved_spots
 
 class Reservation(models.Model):
     """
@@ -64,7 +74,7 @@ class Reservation(models.Model):
     pax = models.IntegerField()
     net_payment = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     pending_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    status = models.CharField(max_length=50)
+    status = models.CharField(max_length=50, default="Reservado")
     debt = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     payment_received_on_tour = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_payment = models.DecimalField(max_digits=10, decimal_places=2, default=0)

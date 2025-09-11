@@ -1,0 +1,127 @@
+/* Fondo oscuro del modalScheduleTour */
+.modalScheduleTour {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenido del modalScheduleTour */
+.modalScheduleTour__content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+  text-align: center;
+}
+
+/* Botón cerrar (X) */
+.modalScheduleTour__close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Botones */
+.modalScheduleTour .btn {
+  background: #4CAF50;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modalScheduleTour .btn:hover {
+  background: #45a049;
+}
+
+
+/* Formulario */
+.form {
+    max-width: 420px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.form__title {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
+}
+
+.form__container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.form__group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form__group--inline {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.form__label {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+    color: #444;
+}
+
+.form__input,
+.form__select {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form__input:focus,
+.form__select:focus {
+    outline: none;
+    border-color: #7ac11d;
+    box-shadow: 0 0 4px rgba(122,193,29,0.4);
+}
+
+.form__checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.form__button {
+    padding: 0.8rem;
+    font-size: 1rem;
+    background-color: #7ac11d;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form__button:hover {
+    background-color: #68a518;
+}

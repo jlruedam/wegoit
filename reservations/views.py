@@ -3,27 +3,51 @@ from django.contrib.auth.decorators import login_required
 from .models import Tour, TourSchedule, Reservation, Agency
 from django.db.models import Sum
 from reservations.modules.open_tours import open_tours_day
-
+from .forms import TourScheduleForm, ReservationForm
+from django.contrib import messages
 
 # Create your views here.
 @login_required
 def home(request):
-
-    # Open tours day
-    open_tours_day()
-    # Load all opened schedules
+    if request.method == "POST":
+        form = TourScheduleForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect("tours:home")
+    
+    tours = Tour.objects.all()
     schedules = TourSchedule.objects.filter(opened = True)
+    form = TourScheduleForm()
+
+    ctx = {
+        "tours":tours,
+        "schedules": schedules,
+        "form":form
+    }
     
-    # Añadir la cantidad de cupos disponibles a cada schedule
-    for schedule in schedules:
-        reserved_pax = schedule.reservations.aggregate(total=Sum('pax'))['total'] or 0
-        schedule.available_spots = schedule.capacity - reserved_pax
+    return render(request, "home/index.html", ctx)
+
+
+@login_required
+def create_reservation(request, schedule_id):
+    schedule = get_object_or_404(TourSchedule, id=schedule_id)
     
-    return render(request, "home/index.html", {"schedules": schedules})
+    if request.method == "POST":
+        form = ReservationForm(request.POST, schedule=schedule)
+        if form.is_valid():
+            reservation = form.save(commit=False)
+            reservation.schedule = schedule  # asegurar el horario
+            reservation.status = "Reservado"  # asegurar estado
+            reservation.created_by = request.user
+            reservation.save()
+            return redirect("tours:home")
+    else:
+        form = ReservationForm(schedule=schedule)
 
-
-
-
+    return render(request, "reservations/reservation_form.html", {
+        "form": form,
+        "schedule": schedule,
+    })
 
 # ---------------- TOUR ----------------
 @login_required

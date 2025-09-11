@@ -68,3 +68,17 @@ def reservation_list(request, schedule_id):
     schedule = get_object_or_404(TourSchedule, id=schedule_id)
     reservations = schedule.reservations.all()
     return render(request, "reservations/reservation_list.html", {"schedule": schedule, "reservations": reservations})
+
+
+@login_required
+def reservation_list_general(request):
+    """
+    Vista que lista todas las reservas
+    """
+    reservations = Reservation.objects.select_related(
+        "schedule__tour", "agency", "created_by"
+    ).all().order_by("-id")  # las más recientes primero
+
+    return render(request, "reservations/reservations.html", {
+        "reservations": reservations
+    })

@@ -8,8 +8,11 @@
 }
 
 .card-container__head {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     text-align: center;
+    margin: 10px;
 }
 
 .card {

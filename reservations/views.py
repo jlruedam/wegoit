@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Tour, TourSchedule, Reservation, Agency
 from django.db.models import Sum
 from reservations.modules.open_tours import open_tours_day
-from .forms import TourScheduleForm, ReservationForm, TourForm
+from .forms import TourScheduleForm, ReservationForm, TourForm, AgencyForm
 from django.contrib import messages
 
 # Create your views here.
@@ -93,3 +93,17 @@ def reservation_list_general(request):
     return render(request, "reservations/reservations.html", {
         "reservations": reservations
     })
+
+
+# ---------------- AGENCIES ----------------
+def agency_list(request):
+    agencies = Agency.objects.all()
+    form = AgencyForm()
+    return render(request, "agencies/agency_list.html", {"agencies": agencies, "form": form})
+
+def agency_create(request):
+    if request.method == "POST":
+        form = AgencyForm(request.POST)
+        if form.is_valid():
+            form.save()
+    return redirect("tours:agency_list")

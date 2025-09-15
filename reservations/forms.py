@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from datetime import date
-from .models import TourSchedule, Reservation, Tour
+from .models import TourSchedule, Reservation, Tour, Agency
 
 class TourScheduleForm(forms.ModelForm):
     class Meta:
@@ -73,3 +73,27 @@ class ReservationForm(forms.ModelForm):
 
         self.fields["status"].initial = "Reservado"
         self.fields["status"].disabled = True
+
+class AgencyForm(forms.ModelForm):
+    class Meta:
+        model = Agency
+        fields = ["name", "phone", "email"]
+        widgets = {
+            "name": forms.TextInput(attrs={
+                "class": "modal__input",
+                "placeholder": "Nombre de la agencia"
+            }),
+            "phone": forms.TextInput(attrs={
+                "class": "modal__input",
+                "placeholder": "Teléfono de contacto"
+            }),
+            "email": forms.EmailInput(attrs={
+                "class": "modal__input",
+                "placeholder": "Correo electrónico"
+            }),
+        }
+        labels = {
+            "name": "Nombre",
+            "phone": "Teléfono",
+            "email": "Email",
+        }

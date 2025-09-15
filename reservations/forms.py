@@ -37,6 +37,14 @@ class TourForm(forms.ModelForm):
         }
 
 class ReservationForm(forms.ModelForm):
+    base_price = forms.DecimalField(
+        label="Precio Base",
+        max_digits=10,
+        decimal_places=2,
+        required=False,
+        disabled=True,  # solo lectura
+    )
+
     class Meta:
         model = Reservation
         fields = [
@@ -53,12 +61,15 @@ class ReservationForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        schedule = kwargs.pop("schedule", None)  # 🔹 Se elimina antes de super()
+        schedule = kwargs.pop("schedule", None)
         super().__init__(*args, **kwargs)
 
         if schedule:
             self.fields["schedule"].initial = schedule
-            self.fields["schedule"].disabled = True  # no editable
+            self.fields["schedule"].disabled = True
+
+            # asignamos el precio base del tour
+            self.fields["base_price"].initial = schedule.tour.base_price
 
         self.fields["status"].initial = "Reservado"
         self.fields["status"].disabled = True

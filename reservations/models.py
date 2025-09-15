@@ -65,9 +65,10 @@ class Reservation(models.Model):
         schedule: Relación con la programación del tour
         customer_name: Nombre del Cliente
         pax: capacidad máxima del tour
-        net_payment: Total Abonado
+        net_payment: Valor total a pagar por el cliente (valor del tour x número de personas)
         pending_balance = saldo pendiente
         status: estado de la reserva (creada, revisada, confirmada, cancelada)
+        agency: Agencia vendedores de la reserva
     """
     schedule = models.ForeignKey(TourSchedule, on_delete=models.CASCADE, related_name="reservations")
     customer_name = models.CharField(max_length=255)

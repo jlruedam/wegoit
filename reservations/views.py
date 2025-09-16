@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Tour, TourSchedule, Reservation, Agency
 from django.db.models import Sum
 from reservations.modules.open_tours import open_tours_day
-from .forms import TourScheduleForm, ReservationForm
+from .forms import TourScheduleForm, ReservationForm, TourForm, AgencyForm
 from django.contrib import messages
 
 # Create your views here.
@@ -27,7 +27,33 @@ def home(request):
     
     return render(request, "home/index.html", ctx)
 
+# ---------------- TOUR ----------------
+@login_required
+def tour_list(request):
+    tours = Tour.objects.all()
+    if request.method == "POST":
+        form = TourForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("tour_list")  # redirige a la lista de tours
+    else:
+        form = TourForm()
 
+    ctx = {
+        "form": form,
+        "tours": tours
+    }
+
+    return render(request, "tours/tour_list.html",ctx)
+
+# ---------------- SCHEDULE ----------------
+@login_required
+def schedule_list(request, tour_id):
+    tour = get_object_or_404(Tour, id=tour_id)
+    schedules = tour.schedules.all()
+    return render(request, "schedules/schedule_list.html", {"tour": tour, "schedules": schedules})
+
+# ---------------- RESERVATION ----------------
 @login_required
 def create_reservation(request, schedule_id):
     schedule = get_object_or_404(TourSchedule, id=schedule_id)
@@ -49,26 +75,11 @@ def create_reservation(request, schedule_id):
         "schedule": schedule,
     })
 
-# ---------------- TOUR ----------------
-@login_required
-def tour_list(request):
-    tours = Tour.objects.all()
-    return render(request, "tours/tour_list.html", {"tours": tours})
-
-# ---------------- SCHEDULE ----------------
-@login_required
-def schedule_list(request, tour_id):
-    tour = get_object_or_404(Tour, id=tour_id)
-    schedules = tour.schedules.all()
-    return render(request, "schedules/schedule_list.html", {"tour": tour, "schedules": schedules})
-
-# ---------------- RESERVATION ----------------
 @login_required
 def reservation_list(request, schedule_id):
     schedule = get_object_or_404(TourSchedule, id=schedule_id)
     reservations = schedule.reservations.all()
     return render(request, "reservations/reservation_list.html", {"schedule": schedule, "reservations": reservations})
-
 
 @login_required
 def reservation_list_general(request):
@@ -82,3 +93,17 @@ def reservation_list_general(request):
     return render(request, "reservations/reservations.html", {
         "reservations": reservations
     })
+
+
+# ---------------- AGENCIES ----------------
+def agency_list(request):
+    agencies = Agency.objects.all()
+    form = AgencyForm()
+    return render(request, "agencies/agency_list.html", {"agencies": agencies, "form": form})
+
+def agency_create(request):
+    if request.method == "POST":
+        form = AgencyForm(request.POST)
+        if form.is_valid():
+            form.save()
+    return redirect("tours:agency_list")

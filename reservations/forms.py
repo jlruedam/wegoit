@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from datetime import date
-from .models import TourSchedule, Reservation
+from .models import TourSchedule, Reservation, Tour, Agency
 
 class TourScheduleForm(forms.ModelForm):
     class Meta:
@@ -23,9 +23,28 @@ class TourScheduleForm(forms.ModelForm):
             raise ValidationError("La fecha no puede ser menor a la fecha actual.")
         return selected_date
     
-
+class TourForm(forms.ModelForm):
+    class Meta:
+        model = Tour
+        fields = "__all__"
+        widgets = {
+            "tour_name": forms.TextInput(attrs={"class": "form__input"}),
+            "base_price": forms.NumberInput(attrs={"class": "form__input", "step": "0.01"}),
+            "default_capacity": forms.NumberInput(attrs={"class": "form__input", "min": "1"}),
+            "description": forms.Textarea(attrs={"class": "form__input", "rows": 4}),
+            "default_start_time": forms.TimeInput(attrs={"class": "form__input", "type": "time"}),
+            "active": forms.CheckboxInput(attrs={"class": "form__checkbox"}),
+        }
 
 class ReservationForm(forms.ModelForm):
+    base_price = forms.DecimalField(
+        label="Precio Base",
+        max_digits=10,
+        decimal_places=2,
+        required=False,
+        disabled=True,  # solo lectura
+    )
+
     class Meta:
         model = Reservation
         fields = [
@@ -42,12 +61,39 @@ class ReservationForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        schedule = kwargs.pop("schedule", None)  # 🔹 Se elimina antes de super()
+        schedule = kwargs.pop("schedule", None)
         super().__init__(*args, **kwargs)
 
         if schedule:
             self.fields["schedule"].initial = schedule
-            self.fields["schedule"].disabled = True  # no editable
+            self.fields["schedule"].disabled = True
+
+            # asignamos el precio base del tour
+            self.fields["base_price"].initial = schedule.tour.base_price
 
         self.fields["status"].initial = "Reservado"
         self.fields["status"].disabled = True
+
+class AgencyForm(forms.ModelForm):
+    class Meta:
+        model = Agency
+        fields = ["name", "phone", "email"]
+        widgets = {
+            "name": forms.TextInput(attrs={
+                "class": "modal__input",
+                "placeholder": "Nombre de la agencia"
+            }),
+            "phone": forms.TextInput(attrs={
+                "class": "modal__input",
+                "placeholder": "Teléfono de contacto"
+            }),
+            "email": forms.EmailInput(attrs={
+                "class": "modal__input",
+                "placeholder": "Correo electrónico"
+            }),
+        }
+        labels = {
+            "name": "Nombre",
+            "phone": "Teléfono",
+            "email": "Email",
+        }

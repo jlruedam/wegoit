@@ -43,12 +43,18 @@
         </div>
 
         <div class="reservation-form__group">
+            <label for="id_base_price" class="reservation-form__label">Precio Base</label>
+            {{ form.base_price }}
+        </div>
+
+
+        <div class="reservation-form__group">
             <label for="id_pax" class="reservation-form__label">Número de Personas</label>
             {{ form.pax }}
         </div>
 
         <div class="reservation-form__group">
-            <label for="id_net_payment" class="reservation-form__label">Total Abonado</label>
+            <label for="id_net_payment" class="reservation-form__label">Valor total a pagar</label>
             {{ form.net_payment }}
         </div>
 

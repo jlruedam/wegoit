@@ -11,18 +11,66 @@
     <div class="option-panel">
         <div class="nav-container">
             <input type="checkbox" id="lateral-input">
-            <label for="lateral-input">
+            <label class="lateral-input" for="lateral-input">
                 <span class="material-symbols-outlined">menu</span>
             </label>
             <nav>
                 <ul>
-                    <li><a class="links" href="/">Inicio</a></li>
-                    <li><a class="links" href="{% url 'tours:tour_list' %}">Tours</a></li>
-                    <li><a class="links" href="{% url 'tours:reservation_list_general' %}">Informe Reservas</a></li>
-                    <!-- <li><a class="links" href="#">Empleados</a></li>
-                    <li><a class="links" href="#">Permisos</a></li>
-                    <li><a class="links" href="#">Programacion</a></li> -->
-                    <li><a class="links" href="{% url 'accounts:logout' %}">Salir</a></li>
+                    <li>
+                        <a class="links lateral-menu-item-container" href="/">
+                            <span class="material-symbols-outlined">home</span>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a class="links lateral-menu-item-container" href="{% url 'tours:tour_list' %}">
+                            <span class="material-symbols-outlined">travel_explore</span>
+                            Tours
+                        </a>
+                    </li>
+                    <li>
+                        <a class="links lateral-menu-item-container" href="{% url 'tours:agency_list' %}">
+                            <span class="material-symbols-outlined">Villa</span>
+                            Agencias
+                        </a>
+                    </li>
+                    <li>
+                        <a class="links lateral-menu-item-container" href="{% url 'tours:reservation_list_general' %}">
+                            <span class="material-symbols-outlined">description</span>
+                            Informe Reservas
+                        </a>
+                    </li>
+                    <!--
+                    <li>
+                        <div class="lateral-menu-item-container">
+                            <label class="lateral-menu-label" for="#">
+                                <span class="material-symbols-outlined">group</span></label>
+                            <a class="links" href="#">Empleados</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="lateral-menu-item-container">
+                            <label class="lateral-menu-label" for="#">
+                                <span class="material-symbols-outlined">vpn_key</span>
+                            </label>
+                            <a class="links" href="#">Permisos</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="lateral-menu-item-container">
+                            <label class="lateral-menu-label" for="#">
+                                <span class="material-symbols-outlined">event</span>
+                            </label>
+                            <a class="links" href="#">Programacion</a>
+                        </div>
+                    </li>
+                    -->
+                    <li>
+                        <a class="links lateral-menu-item-container" href="{% url 'accounts:logout' %}">
+                            <span class="material-symbols-outlined">logout</span>
+                            logout
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>

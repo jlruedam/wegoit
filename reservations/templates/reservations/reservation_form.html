@@ -1,102 +1,85 @@
-{% extends 'layouts/base.html' %}
+{% extends "layouts/base.html" %}
 {% load static %}
-
-{% block title %}Crear Reserva{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'assets/css/reservation_form.css' %}">
 {% endblock %}
 
 {% block content %}
+<form id="reservation-form" class="reservation-form" method="post">
+    {% csrf_token %}
+    <h2 class="reservation-form__title">Nueva Reserva</h2>
 
-{% if form.errors %}
-<div class="form-errors">
-    <ul>
-        {% for field, errors in form.errors.items %}
-            <li><strong>{{ field|capfirst }}:</strong>
-                <ul>
-                    {% for error in errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
+    <div class="reservation-form__group">
+        {{ form.schedule.label_tag }}
+        {{ form.schedule }}
+    </div>
 
+    <div class="reservation-form__group">
+        {{ form.base_price.label_tag }}
+        {{ form.base_price }}
+    </div>
 
-<div class="reservation-form">
-    <h1 class="reservation-form__title">Crear Reserva</h1>
+    <div class="reservation-form__group">
+        {{ form.customer_name.label_tag }}
+        {{ form.customer_name }}
+    </div>
 
-    <form method="post" class="reservation-form__form">
-        {% csrf_token %}
-
-        <div class="reservation-form__group">
-            <label class="reservation-form__label">Programación del Tour</label>
-            {{ form.schedule }}
-        </div>
-
-        <div class="reservation-form__group">
-            <label for="id_customer_name" class="reservation-form__label">Nombre del Cliente</label>
-            {{ form.customer_name }}
-        </div>
-
-        <div class="reservation-form__group">
-            <label for="id_base_price" class="reservation-form__label">Precio Base</label>
-            {{ form.base_price }}
-        </div>
+    <div class="reservation-form__group">
+        <label for="{{ form.type_document.id_for_label }}">Tipo de Documento</label>
+        {{ form.type_document }}
+    </div>
 
 
-        <div class="reservation-form__group">
-            <label for="id_pax" class="reservation-form__label">Número de Personas</label>
-            {{ form.pax }}
-        </div>
+    <div class="reservation-form__group">
+        {{ form.costumer_document.label_tag }}
+        {{ form.costumer_document }}
+    </div>
 
-        <div class="reservation-form__group">
-            <label for="id_net_payment" class="reservation-form__label">Valor total a pagar</label>
-            {{ form.net_payment }}
-        </div>
+    <div class="reservation-form__group">
+        {{ form.pax.label_tag }}
+        {{ form.pax }}
+    </div>
 
-        <div class="reservation-form__group">
-            <label for="id_pending_balance" class="reservation-form__label">Saldo Pendiente</label>
-            {{ form.pending_balance }}
-        </div>
+    <div class="reservation-form__group">
+        {{ form.total_to_pay.label_tag }}
+        {{ form.total_to_pay }}
+    </div>
 
-        <!-- <div class="reservation-form__group">
-            <label for="id_status" class="reservation-form__label">Estado</label>
-            {{ form.status }}
-        </div> -->
+    <div class="reservation-form__group">
+        {{ form.total_pending_balance.label_tag }}
+        {{ form.total_pending_balance }}
+    </div>
 
-        <div class="reservation-form__group">
-            <label for="id_debt" class="reservation-form__label">Deuda</label>
-            {{ form.debt }}
-        </div>
+    <div class="reservation-form__group">
+        {{ form.expected_agency_payment.label_tag }}
+        {{ form.expected_agency_payment }}
+    </div>
 
-        <div class="reservation-form__group">
-            <label for="id_payment_received_on_tour" class="reservation-form__label">Pago Recibido en el Tour</label>
-            {{ form.payment_received_on_tour }}
-        </div>
+    <div class="reservation-form__group">
+        {{ form.expected_customer_payment.label_tag }}
+        {{ form.expected_customer_payment }}
+    </div>
 
-        <div class="reservation-form__group">
-            <label for="id_total_payment" class="reservation-form__label">Pago Total</label>
-            {{ form.total_payment }}
-        </div>
+    <div class="reservation-form__group">
+        {{ form.agency.label_tag }}
+        {{ form.agency }}
+    </div>
 
-        <div class="reservation-form__group">
-            <label for="id_agency" class="reservation-form__label">Agencia</label>
-            {{ form.agency }}
-        </div>
+    <div class="reservation-form__group">
+        {{ form.status.label_tag }}
+        {{ form.status }}
+    </div>
 
-        <div class="reservation-form__actions">
-            <button type="submit" class="reservation-form__button">Guardar Reserva</button>
-            <a href="{% url 'tours:home' %}" class="reservation-form__button reservation-form__button--cancel">Cancelar</a>
-        </div>
-    </form>
-</div>
-
-
-
+    <div class="reservation-form__actions">
+        <button type="submit" class="reservation-form__btn reservation-form__btn--primary">
+            Guardar
+        </button>
+        <a href="" class="reservation-form__btn reservation-form__btn--secondary">
+            Cancelar
+        </a>
+    </div>
+</form>
 {% endblock %}
 
 {% block extra_js %}

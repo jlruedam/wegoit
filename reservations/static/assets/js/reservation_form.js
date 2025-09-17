@@ -1,14 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
     const paxInput = document.getElementById("id_pax");
     const basePriceInput = document.getElementById("id_base_price");
-    const netPaymentInput = document.getElementById("id_net_payment");
+    const totalToPayInput = document.getElementById("id_total_to_pay");
 
-    function updateNetPayment() {
+    function updateTotalToPay() {
         const pax = parseInt(paxInput.value) || 0;
         const basePrice = parseFloat(basePriceInput.value) || 0;
+
         const total = pax * basePrice;
-        netPaymentInput.value = total.toFixed(2);
+        totalToPayInput.value = total.toFixed(2); // siempre con 2 decimales
     }
 
-    paxInput.addEventListener("input", updateNetPayment);
+    // Calcular cuando se escriba o cambie el número de personas
+    paxInput.addEventListener("input", updateTotalToPay);
+
+    // Calcular también al cargar la página (por si ya hay valores iniciales)
+    updateTotalToPay();
 });

@@ -1,81 +1,85 @@
+/* Bloque principal */
 .reservation-form {
     max-width: 700px;
     margin: 2rem auto;
-    padding: 2rem;
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     font-family: 'Roboto', sans-serif;
 }
 
+/* Título */
 .reservation-form__title {
-    text-align: center;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    font-weight: 600;
     margin-bottom: 1.5rem;
-    color: #333;
+    text-align: center;
+    color: #2c3e50;
 }
 
-.reservation-form__form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
+/* Campos del formulario */
 .reservation-form__group {
     display: flex;
     flex-direction: column;
+    margin-bottom: 1rem;
 }
 
-.reservation-form__label {
-    font-weight: 600;
+.reservation-form__group label {
+    font-weight: 500;
     margin-bottom: 0.3rem;
-    color: #444;
+    color: #34495e;
 }
 
 .reservation-form__group input,
 .reservation-form__group select,
 .reservation-form__group textarea {
     padding: 0.6rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    border: 1px solid #ccd0d5;
+    border-radius: 0.5rem;
     font-size: 1rem;
-    transition: border 0.3s;
+    transition: border-color 0.2s;
 }
 
 .reservation-form__group input:focus,
 .reservation-form__group select:focus,
 .reservation-form__group textarea:focus {
-    border-color: #7ac11d;
+    border-color: #3498db;
     outline: none;
 }
 
+/* Acciones */
 .reservation-form__actions {
     display: flex;
     justify-content: space-between;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
-.reservation-form__button {
-    padding: 0.7rem 1.5rem;
+.reservation-form__btn {
+    padding: 0.7rem 1.4rem;
     border: none;
-    border-radius: 6px;
-    font-size: 1rem;
+    border-radius: 0.5rem;
     cursor: pointer;
-    transition: background 0.3s;
     text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.reservation-form__btn--primary {
+    background: #3498db;
     color: #fff;
-    background: #7ac11d;
-    text-align: center;
 }
 
-.reservation-form__button:hover {
-    background: #68a21b;
+.reservation-form__btn--primary:hover {
+    background: #2980b9;
 }
 
-.reservation-form__button--cancel {
-    background: #d9534f;
+.reservation-form__btn--secondary {
+    background: #bdc3c7;
+    color: #2c3e50;
 }
 
-.reservation-form__button--cancel:hover {
-    background: #c9302c;
+.reservation-form__btn--secondary:hover {
+    background: #95a5a6;
 }

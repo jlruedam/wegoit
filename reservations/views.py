@@ -35,7 +35,7 @@ def tour_list(request):
         form = TourForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("tour_list")  # redirige a la lista de tours
+            return redirect("tour:tour_list")  # redirige a la lista de tours
     else:
         form = TourForm()
 

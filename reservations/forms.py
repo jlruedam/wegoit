@@ -37,6 +37,19 @@ class TourForm(forms.ModelForm):
         }
 
 class ReservationForm(forms.ModelForm):
+    DOCUMENT_TYPE_CHOICES = [
+        ("CC", "Cédula de Ciudadanía"),
+        ("CE", "Cédula de Extranjería"),
+        ("TI", "Tarjeta de Identidad"),
+        ("PA", "Pasaporte"),
+    ]
+
+    type_document = forms.ChoiceField(
+        choices=DOCUMENT_TYPE_CHOICES,
+        label="Tipo de Documento",
+        widget=forms.Select(attrs={"class": "form-control"})
+    )
+
     base_price = forms.DecimalField(
         label="Precio Base",
         max_digits=10,
@@ -49,15 +62,15 @@ class ReservationForm(forms.ModelForm):
         model = Reservation
         fields = [
             "schedule",
+            "type_document",    
+            "costumer_document",
             "customer_name",
             "pax",
-            "net_payment",
-            "pending_balance",
-            "status",
-            "debt",
-            "payment_received_on_tour",
-            "total_payment",
+            "total_to_pay",
+            "expected_agency_payment",
+            "expected_customer_payment",
             "agency",
+            "status",
         ]
 
     def __init__(self, *args, **kwargs):
@@ -67,12 +80,11 @@ class ReservationForm(forms.ModelForm):
         if schedule:
             self.fields["schedule"].initial = schedule
             self.fields["schedule"].disabled = True
-
-            # asignamos el precio base del tour
             self.fields["base_price"].initial = schedule.tour.base_price
 
         self.fields["status"].initial = "Reservado"
         self.fields["status"].disabled = True
+
 
 class AgencyForm(forms.ModelForm):
     class Meta:

@@ -21,7 +21,7 @@
                     <th>Tour / Fecha</th>
                     <th>Cliente</th>
                     <th>Pax</th>
-                    <th>Abonado</th>
+                    <th>Total a pagar</th>
                     <th>Saldo Pendiente</th>
                     <th>Deuda</th>
                     <th>Pago en Tour</th>
@@ -47,8 +47,8 @@
                     </td>
                     <td>{{ r.customer_name }}</td>
                     <td>{{ r.pax }}</td>
-                    <td>{{ r.net_payment }}</td>
-                    <td>{{ r.pending_balance }}</td>
+                    <td>{{ r.total_to_pay }}</td>
+                    <td>{{ r.total_pending_balance }}</td>
                     <td>{{ r.debt }}</td>
                     <td>{{ r.payment_received_on_tour }}</td>
                     <td>{{ r.total_payment }}</td>

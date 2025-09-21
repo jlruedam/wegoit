@@ -1,6 +1,6 @@
 h2 {
     margin-bottom: 15px;
-    color: #800000;
+    /* color: #800000; */
 }
 
 table {
@@ -10,15 +10,15 @@ table {
 }
 
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid;
     padding: 10px;
     text-align: left;
 }
 
-th {
+/* th {
     background-color: #ffe6e6;
     color: #800000;
-}
+} */
 
 td {
     font-size: 14px;

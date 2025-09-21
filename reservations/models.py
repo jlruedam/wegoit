@@ -109,19 +109,19 @@ class Reservation(AuditModel):
         return sum(p.amount for p in self.payments.filter(source="customer"))
     @property
     def total_paid(self): # Total a pagar por la agencia y por el cliente
-        return self.total_paid_via_agency() + self.total_paid_direct()
+        return self.total_paid_via_agency + self.total_paid_direct
     @property 
     def pending_agency_balance(self): 
         """Saldo que la agencia aún debe transferir"""
-        return max(self.expected_agency_payment - self.total_paid_via_agency(), 0)
+        return max(self.expected_agency_payment - self.total_paid_via_agency, 0)
     @property
     def pending_customer_balance(self):
         """Saldo que el cliente aún debe pagar directamente"""
-        return max(self.expected_customer_payment - self.total_paid_direct(), 0)
+        return max(self.expected_customer_payment - self.total_paid_direct, 0)
     @property
     def pending_balance(self):
         """Saldo total pendiente"""
-        return self.pending_agency_balance() + self.pending_customer_balance()
+        return self.pending_agency_balance + self.pending_customer_balance
     @property
     def is_fully_paid(self):
         return self.pending_balance() == 0

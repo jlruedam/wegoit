@@ -51,7 +51,7 @@
 
 <!-- Modal con <dialog> -->
 <dialog id="paymentModal">
-    <form id="paymentForm" method="post">
+    <form id="paymentForm" method="post" action="{% url 'tours:add_payment' %}" >
         {% csrf_token %}
         <h3>Registrar Pago</h3>
         <input type="hidden" name="reservation_id" id="reservationId">

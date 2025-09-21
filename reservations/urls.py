@@ -13,5 +13,6 @@ urlpatterns = [
     path("reservations/<int:schedule_id>/create", views.create_reservation, name="create_reservation"),
     path("agencies/", views.agency_list, name="agency_list"),
     path("agencies/create/", views.agency_create, name="agency_create"),
+    path("reservations/add-payment/", views.add_payment, name="add_payment"),
 
 ]

@@ -1,7 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from datetime import date
-from .models import TourSchedule, Reservation, Tour, Agency
+from .models import (TourSchedule, Reservation,
+                    ReservationPayment, Tour, Agency)
 
 class TourScheduleForm(forms.ModelForm):
     class Meta:
@@ -22,7 +23,7 @@ class TourScheduleForm(forms.ModelForm):
         if selected_date < today:
             raise ValidationError("La fecha no puede ser menor a la fecha actual.")
         return selected_date
-    
+       
 class TourForm(forms.ModelForm):
     class Meta:
         model = Tour
@@ -85,7 +86,6 @@ class ReservationForm(forms.ModelForm):
         self.fields["status"].initial = "Reservado"
         self.fields["status"].disabled = True
 
-
 class AgencyForm(forms.ModelForm):
     class Meta:
         model = Agency
@@ -109,3 +109,8 @@ class AgencyForm(forms.ModelForm):
             "phone": "Teléfono",
             "email": "Email",
         }
+
+class ReservationPaymentForm(forms.ModelForm):
+    class Meta:
+        model = ReservationPayment
+        fields = ["source", "amount", "note"]

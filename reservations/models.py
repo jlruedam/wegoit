@@ -146,3 +146,4 @@ class ReservationPayment(models.Model):
 
     def __str__(self):
         return f"Pago {self.amount} ({self.get_source_display()}) - Reserva {self.reservation.id}"
+

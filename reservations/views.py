@@ -3,8 +3,10 @@ from django.contrib.auth.decorators import login_required
 from .models import Tour, TourSchedule, Reservation, Agency
 from django.db.models import Sum
 from reservations.modules.open_tours import open_tours_day
-from .forms import TourScheduleForm, ReservationForm, TourForm, AgencyForm
+from .forms import TourScheduleForm, ReservationForm, TourForm, AgencyForm, ReservationPaymentForm
 from django.contrib import messages
+from django.views.decorators.http import require_POST
+
 
 # Create your views here.
 @login_required
@@ -94,6 +96,26 @@ def reservation_list_general(request):
         "reservations": reservations
     })
 
+
+# ---------------- PAYMENTS ----------------
+@login_required
+@require_POST
+def add_payment(request):
+    """Agrega un pago a una reserva"""
+    print("AGREGAR NUEVO PAGO")
+    reservation_id = request.POST.get("reservation_id")
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+
+    form = ReservationPaymentForm(request.POST)
+    if form.is_valid():
+        payment = form.save(commit=False)
+        payment.reservation = reservation
+        payment.save()
+        messages.success(request, "Pago registrado correctamente.")
+    else:
+        messages.error(request, "Hubo un error al registrar el pago.")
+
+    return redirect("tours:reservation_list", schedule_id=reservation.schedule.id)
 
 # ---------------- AGENCIES ----------------
 def agency_list(request):

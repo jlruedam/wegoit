@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Tour, TourSchedule, Reservation, Agency
+from .models import Tour, TourSchedule, Reservation, Agency, ReservationPayment
 from django.db.models import Sum
 from reservations.modules.open_tours import open_tours_day
 from .forms import TourScheduleForm, ReservationForm, TourForm, AgencyForm, ReservationPaymentForm
@@ -117,6 +117,19 @@ def add_payment(request):
 
     return redirect("tours:reservation_list", schedule_id=reservation.schedule.id)
 
+@login_required
+def reservation_payments_list(request, reservation_id):
+    # Traemos la reserva o mostramos 404 si no existe
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+
+    # Pagos asociados a la reserva
+    payments = ReservationPayment.objects.filter(reservation=reservation).order_by("-payment_date")
+
+    context = {
+        "reservation": reservation,
+        "payments": payments,
+    }
+    return render(request, "payments/reservation_payments_list.html", context)
 # ---------------- AGENCIES ----------------
 def agency_list(request):
     agencies = Agency.objects.all()

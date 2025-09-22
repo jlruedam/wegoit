@@ -41,6 +41,13 @@
                 <button class="open-payment-modal" data-reservation="{{ r.id }}">
                     <span class="material-symbols-outlined">add_card</span>
                 </button>
+                {% if r.total_paid %}
+                <a href="{% url 'tours:reservation_payments_list' r.id %}">
+                    <button>
+                    <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                </a>
+                {% endif %}
             </td>
             <td>{{ r.pending_agency_balance }}</td>
             <td>{{ r.pending_customer_balance }}</td>

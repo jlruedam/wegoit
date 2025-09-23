@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Tour, TourSchedule, Reservation, Agency, ReservationPayment
 from django.db.models import Sum
@@ -37,7 +38,7 @@ def tour_list(request):
         form = TourForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("tour:tour_list")  # redirige a la lista de tours
+            return redirect("tours:tour_list")  # redirige a la lista de tours
     else:
         form = TourForm()
 
@@ -100,26 +101,31 @@ def reservation_list_general(request):
 @login_required
 @require_POST
 def add_payment(request):
-    """Agrega un pago a una reserva"""
-    print("AGREGAR NUEVO PAGO")
     reservation_id = request.POST.get("reservation_id")
     reservation = get_object_or_404(Reservation, id=reservation_id)
-
-    # Reglas de validación:
-    
-
 
     form = ReservationPaymentForm(request.POST)
     if form.is_valid():
         payment = form.save(commit=False)
         payment.reservation = reservation
+
+        # Validaciones
+        if payment.source == "agency" and payment.amount > reservation.pending_agency_balance:
+            return JsonResponse({
+                "success": False,
+                "message": f"El monto ({payment.amount}) supera el saldo pendiente de la agencia ({reservation.pending_agency_balance})."
+            })
+
+        if payment.source == "customer" and payment.amount > reservation.pending_customer_balance:
+            return JsonResponse({
+                "success": False,
+                "message": f"El monto ({payment.amount}) supera el saldo pendiente del cliente ({reservation.pending_customer_balance})."
+            })
+
         payment.save()
-        messages.success(request, "Pago registrado correctamente.")
-    else:
-        messages.error(request, "Hubo un error al registrar el pago.")
+        return JsonResponse({"success": True, "message": "Pago registrado correctamente."})
 
-    return redirect("tours:reservation_list", schedule_id=reservation.schedule.id)
-
+    return JsonResponse({"success": False, "message": "Hubo un error al registrar el pago."})
 @login_required
 def reservation_payments_list(request, reservation_id):
     # Traemos la reserva o mostramos 404 si no existe

@@ -27,6 +27,7 @@
             <th>Agencia</th>
             <th>Estado</th>
             <th>Agregar pagos</th>
+            <th>Ver pagos</th>
             <th>Pendiente agencia</th>
             <th>Pendiente Cliente</th>
         </tr>
@@ -49,6 +50,8 @@
                 <button class="open-payment-modal" data-reservation="{{ r.id }}">
                     <span class="material-symbols-outlined">add_card</span>
                 </button>
+            </td>
+            <td>
                 {% if r.total_paid %}
                 <a href="{% url 'tours:reservation_payments_list' r.id %}">
                     <button>
@@ -107,13 +110,21 @@
         const modal = document.getElementById("paymentModal");
         const reservationInput = document.getElementById("reservationId");
         const closeBtn = document.getElementById("closePaymentModal");
+        const form = document.getElementById("paymentForm");
 
-        // Delegación de eventos para los botones del modal
+        // Crear contenedor de mensajes dentro del modal
+        const messageBox = document.createElement("div");
+        messageBox.id = "paymentMessage";
+        form.prepend(messageBox);
+
+        // Abrir modal con el id de la reserva
         document.querySelector("#reservationTable").addEventListener("click", (e) => {
             if (e.target.closest(".open-payment-modal")) {
                 const btn = e.target.closest(".open-payment-modal");
                 const reservationId = btn.getAttribute("data-reservation");
                 reservationInput.value = reservationId;
+                messageBox.innerText = ""; // limpia mensajes previos
+                messageBox.className = "";
                 modal.showModal();
             }
         });
@@ -122,6 +133,36 @@
         closeBtn.addEventListener("click", () => {
             modal.close();
         });
+
+        // Interceptar el envío del formulario
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: "POST",
+                body: formData,
+            })
+            .then(res => res.json())
+            .then(data => {
+                messageBox.innerText = data.message;
+                messageBox.className = data.success ? "msg-success" : "msg-error";
+
+                if (data.success) {
+                    setTimeout(() => {
+                        modal.close();
+                        location.reload(); // refresca tabla para ver el pago
+                    }, 1200);
+                }
+            })
+            .catch(err => {
+                console.error("Error:", err);
+                messageBox.innerText = "Ocurrió un error inesperado.";
+                messageBox.className = "msg-error";
+            });
+        });
     });
 </script>
+
 {% endblock %}

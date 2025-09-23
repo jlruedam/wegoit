@@ -92,8 +92,8 @@ def reservation_list_general(request):
         "schedule__tour", "agency", "created_by"
     ).all().order_by("-id")  # las más recientes primero
 
-    return render(request, "reservations/reservations.html", {
-        "reservations": reservations
+    return render(request, "reservations/reservation_list.html", {
+        "reservations": reservations, "general":True
     })
 
 

@@ -33,7 +33,6 @@ class Agency(models.Model):
     def __str__(self):
         return self.name
 
-
 class Tour(models.Model):
     tour_name = models.CharField("Nombre del tour", max_length=255, unique=True)
     base_price = models.DecimalField("Precio base", max_digits=10, decimal_places=2)
@@ -49,7 +48,6 @@ class Tour(models.Model):
 
     def __str__(self):
         return self.tour_name
-
 
 class TourSchedule(models.Model):
     tour = models.ForeignKey(

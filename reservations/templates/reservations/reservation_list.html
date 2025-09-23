@@ -9,10 +9,15 @@
 {% endblock %}
 
 {% block content %}
-<h2>Reservas para {{ schedule.tour.tour_name }} - {{ schedule.date }} {{ schedule.start_time }}</h2>
+{% if not general %}
+    <h2>Reservas para {{ schedule.tour.tour_name }} - {{ schedule.date }} {{ schedule.start_time }}</h2>
+{% endif %}
 <table id="reservationTable" class="display responsive nowrap" style="width:100%">
     <thead>
         <tr>
+            {% if general %}
+            <th>Tour</th>
+            {% endif %}
             <th>Documento Cliente</th>
             <th>Tipo Documento</th>
             <th>Nombre Cliente</th>
@@ -29,6 +34,9 @@
     <tbody>
         {% for r in reservations %}
         <tr>
+            {% if general %}
+            <td>{{ r.schedule.tour.tour_name }} - {{ r.schedule.date }} {{ r.schedule.start_time }}</td>
+            {% endif %}
             <td>{{ r.costumer_document }}</td>
             <td>{{ r.type_document }}</td>
             <td>{{ r.customer_name }}</td>
@@ -90,7 +98,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'tours/js/reservations.js' %}"></script>
+<script src="{% static 'assets/js/reservations.js' %}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         // Inicializar DataTable
@@ -98,16 +106,16 @@
 
         const modal = document.getElementById("paymentModal");
         const reservationInput = document.getElementById("reservationId");
-        const openButtons = document.querySelectorAll(".open-payment-modal");
         const closeBtn = document.getElementById("closePaymentModal");
 
-        // Abrir modal
-        openButtons.forEach(btn => {
-            btn.addEventListener("click", () => {
+        // Delegación de eventos para los botones del modal
+        document.querySelector("#reservationTable").addEventListener("click", (e) => {
+            if (e.target.closest(".open-payment-modal")) {
+                const btn = e.target.closest(".open-payment-modal");
                 const reservationId = btn.getAttribute("data-reservation");
                 reservationInput.value = reservationId;
                 modal.showModal();
-            });
+            }
         });
 
         // Cerrar modal

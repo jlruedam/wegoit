@@ -96,7 +96,6 @@ def reservation_list_general(request):
         "reservations": reservations, "general":True
     })
 
-
 # ---------------- PAYMENTS ----------------
 @login_required
 @require_POST
@@ -105,6 +104,10 @@ def add_payment(request):
     print("AGREGAR NUEVO PAGO")
     reservation_id = request.POST.get("reservation_id")
     reservation = get_object_or_404(Reservation, id=reservation_id)
+
+    # Reglas de validación:
+    
+
 
     form = ReservationPaymentForm(request.POST)
     if form.is_valid():

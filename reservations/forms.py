@@ -83,8 +83,13 @@ class ReservationForm(forms.ModelForm):
             self.fields["schedule"].disabled = True
             self.fields["base_price"].initial = schedule.tour.base_price
 
+        # ⚡ Aquí forzamos que agency sea obligatorio
+        self.fields["agency"].required = True  
+        self.fields["agency"].empty_label = "Seleccione una agencia"  
+
         self.fields["status"].initial = "Reservado"
         self.fields["status"].disabled = True
+
 
 class AgencyForm(forms.ModelForm):
     class Meta:

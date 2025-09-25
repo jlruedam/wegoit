@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Tour, TourSchedule, Reservation, Agency, ReservationPayment
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from reservations.modules.open_tours import open_tours_day
 from .forms import TourScheduleForm, ReservationForm, TourForm, AgencyForm, ReservationPaymentForm
 from django.contrib import messages
@@ -140,14 +140,55 @@ def reservation_payments_list(request, reservation_id):
     }
     return render(request, "payments/reservation_payments_list.html", context)
 # ---------------- AGENCIES ----------------
+@login_required
 def agency_list(request):
     agencies = Agency.objects.all()
     form = AgencyForm()
     return render(request, "agencies/agency_list.html", {"agencies": agencies, "form": form})
 
+@login_required
 def agency_create(request):
     if request.method == "POST":
         form = AgencyForm(request.POST)
         if form.is_valid():
             form.save()
     return redirect("tours:agency_list")
+
+@login_required
+def dashboard(request):
+    reservations_by_tour = (
+        Reservation.objects
+        .values("schedule__tour__tour_name")
+        .annotate(total=Count("id"))
+        .order_by("schedule__tour__tour_name")
+    )
+
+    payments_by_source = (
+        ReservationPayment.objects
+        .values("source")
+        .annotate(total=Sum("amount"))
+    )
+
+    pax_by_tour = (
+        Reservation.objects
+        .values("schedule__tour__tour_name")
+        .annotate(total_pax=Sum("pax"))
+        .order_by("-total_pax")[:5]
+    )
+
+    # 👇 Convertimos Decimals a float
+    payments_by_source = [
+        {"source": p["source"], "total": float(p["total"] or 0)}
+        for p in payments_by_source
+    ]
+    pax_by_tour = [
+        {"schedule__tour__tour_name": t["schedule__tour__tour_name"], "total_pax": int(t["total_pax"] or 0)}
+        for t in pax_by_tour
+    ]
+
+    context = {
+        "reservations_by_tour": list(reservations_by_tour),
+        "payments_by_source": payments_by_source,
+        "pax_by_tour": pax_by_tour,
+    }
+    return render(request, "dashboard/dashboard.html", context)

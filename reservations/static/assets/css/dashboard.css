@@ -1,65 +1,28 @@
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-top: 20px;
+/* Block: dashboard */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
 }
 
-.card-container__head {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    text-align: center;
-    margin: 10px;
+/* Element: card */
+.dashboard__card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    width: 250px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+/* Element: title */
+.dashboard__title {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
 }
 
-.card h3 {
-    margin-top: 0;
-    color: #004080;
-}
-
-.card p {
-    margin: 5px 0;
-    font-size: 14px;
-}
-
-.card-buttons {
-    margin-top: 15px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.btn {
-    text-decoration: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    color: white;
-    font-size: 14px;
-}
-
-.btn-primary {
-    background-color: #004080;
-}
-
-.btn-primary:hover {
-    background-color: #003366;
-}
-
-.btn-secondary {
-    background-color: #006633;
-}
-
-.btn-secondary:hover {
-    background-color: #004d26;
+/* Modifiers (ejemplo si en el futuro quieres destacar una tarjeta específica) */
+.dashboard__card--highlight {
+    border: 2px solid #36A2EB;
 }

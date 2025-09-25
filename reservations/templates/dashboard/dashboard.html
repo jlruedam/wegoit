@@ -1,0 +1,74 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - We go it!{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <div class="dashboard__card">
+        <h3 class="dashboard__title">Reservas por Tour</h3>
+        <canvas id="reservationsChart"></canvas>
+    </div>
+    <div class="dashboard__card">
+        <h3 class="dashboard__title">Pagos por Fuente</h3>
+        <canvas id="paymentsChart"></canvas>
+    </div>
+    <div class="dashboard__card">
+        <h3 class="dashboard__title">Top 5 Tours por Pasajeros</h3>
+        <canvas id="paxChart"></canvas>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const reservationsByTour = {{ reservations_by_tour|safe }};
+    const paymentsBySource = {{ payments_by_source|safe }};
+    const paxByTour = {{ pax_by_tour|safe }};
+
+    new Chart(document.getElementById('reservationsChart'), {
+        type: 'bar',
+        data: {
+            labels: reservationsByTour.map(r => r.schedule__tour__tour_name),
+            datasets: [{
+                label: 'Reservas',
+                data: reservationsByTour.map(r => r.total),
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('paymentsChart'), {
+        type: 'pie',
+        data: {
+            labels: paymentsBySource.map(p => p.source),
+            datasets: [{
+                label: 'Pagos',
+                data: paymentsBySource.map(p => p.total),
+                backgroundColor: ['#36A2EB','#FF6384']
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('paxChart'), {
+        type: 'line',
+        data: {
+            labels: paxByTour.map(t => t.schedule__tour__tour_name),
+            datasets: [{
+                label: 'Pasajeros',
+                data: paxByTour.map(t => t.total_pax),
+                borderColor: '#4BC0C0',
+                fill: false,
+                tension: 0.3
+            }]
+        }
+    });
+});
+</script>
+{% endblock %}

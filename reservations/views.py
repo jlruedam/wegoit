@@ -7,7 +7,9 @@ from reservations.modules.open_tours import open_tours_day
 from .forms import TourScheduleForm, ReservationForm, TourForm, AgencyForm, ReservationPaymentForm
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-
+from django.db.models.functions import Coalesce
+from django.db.models import Value, Q, DecimalField
+from django.db.models.functions import TruncMonth
 
 # Create your views here.
 @login_required
@@ -176,7 +178,11 @@ def dashboard(request):
         .order_by("-total_pax")[:5]
     )
 
-    # 👇 Convertimos Decimals a float
+    # Conversión a tipos nativos
+    reservations_by_tour = [
+        {"schedule__tour__tour_name": r["schedule__tour__tour_name"], "total": int(r["total"] or 0)}
+        for r in reservations_by_tour
+    ]
     payments_by_source = [
         {"source": p["source"], "total": float(p["total"] or 0)}
         for p in payments_by_source
@@ -186,9 +192,91 @@ def dashboard(request):
         for t in pax_by_tour
     ]
 
+    # 👉 Programaciones activas con cálculos
+    schedules_actives = []
+    for schedule in TourSchedule.objects.filter(opened=True).order_by("date", "start_time"):
+        reservations = schedule.reservations.all()
+        total_pax = reservations.aggregate(total=Sum("pax"))["total"] or 0
+        total_sales = reservations.aggregate(total=Sum("total_to_pay"))["total"] or 0
+        pending_total = sum(r.pending_balance for r in reservations)
+
+        schedules_actives.append({
+            "tour": schedule.tour.tour_name,
+            "programacion": f"{schedule.date} {schedule.start_time.strftime('%H:%M')}",
+            "capacity": schedule.capacity,
+            "sold_spots": total_pax,
+            "available_spots": schedule.available_spots, 
+            "total_sales": float(total_sales),
+            "pending": float(pending_total),
+        })
+
+    # 👉 Nueva gráfica: Deuda por agencia
+    agencias_data = (
+        Reservation.objects
+        .values("agency__name")
+        .annotate(
+            total=Coalesce(
+                Sum("expected_agency_payment"),
+                Value(0, output_field=DecimalField())
+            ),
+            pagado=Coalesce(
+                Sum("payments__amount", filter=Q(payments__source="agency")),
+                Value(0, output_field=DecimalField())
+            )
+        )
+    )
+
+    deuda_agencias = [
+        {
+            "agency": a["agency__name"],
+            "deuda": float(a["total"]) - float(a["pagado"])
+        }for a in agencias_data
+    ]
+
+    # Ventas totales por mes
+    ventas_por_mes_qs = (
+        Reservation.objects
+        .annotate(mes=TruncMonth('schedule__date'))
+        .values('mes')
+        .annotate(total_ventas=Sum('total_to_pay'))
+        .order_by('mes')
+    )
+
+    # Convertir a lista de diccionarios y manejar nulos
+    ventas_por_mes = [
+        {"mes": v["mes"].strftime("%b %Y"), "ventas": float(v["total_ventas"] or 0)}
+        for v in ventas_por_mes_qs
+    ]
+    
+    # Total de ventas global
+    total_ventas = sum(s['total_sales'] for s in schedules_actives)
+
+    # Ventas totales por tour
+    ventas_por_tour_qs = (
+        Reservation.objects
+        .values('schedule__tour__tour_name')
+        .annotate(total_ventas=Sum('total_to_pay'))
+        .order_by('schedule__tour__tour_name')
+    )
+
+    ventas_por_tour = [
+        {
+            "tour": v["schedule__tour__tour_name"],
+            "ventas": float(v["total_ventas"] or 0)
+        }
+        for v in ventas_por_tour_qs
+    ]
+
     context = {
-        "reservations_by_tour": list(reservations_by_tour),
+        "reservations_by_tour": reservations_by_tour,
         "payments_by_source": payments_by_source,
         "pax_by_tour": pax_by_tour,
+        "schedules_actives": schedules_actives,
+        "deuda_agencias": deuda_agencias, 
+        "total_ventas": total_ventas,
+        "ventas_por_tour": ventas_por_tour,
+        "ventas_por_mes": ventas_por_mes
+        
     }
+
     return render(request, "dashboard/dashboard.html", context)

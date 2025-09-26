@@ -22,7 +22,21 @@
     color: #333;
 }
 
-/* Modifiers (ejemplo si en el futuro quieres destacar una tarjeta específica) */
-.dashboard__card--highlight {
-    border: 2px solid #36A2EB;
+/* Modifier: tarjeta de tabla ocupa todo el ancho */
+.dashboard__card--full {
+    grid-column: 1 / -1; /* Se expande en todas las columnas */
 }
+
+/* DataTable estilos básicos */
+#schedulesTable {
+    width: 100% !important;
+    border-collapse: collapse;
+}
+
+#schedulesTable th, 
+#schedulesTable td {
+    padding: 0.75rem;
+    text-align: center;
+}
+
+

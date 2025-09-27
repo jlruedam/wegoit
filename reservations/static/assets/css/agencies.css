@@ -11,6 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0 5px;
     margin-bottom: 15px;
 }
 
@@ -30,11 +31,18 @@
 }
 
 .agencies__btn--primary {
-    background-color: #007bff;
-    color: #fff;
+    background-color: whitesmoke;
+    color: var(--azul-oscuro);
+    border: 2px solid var(--azul-oscuro);
+    border-radius: 15px;
+    padding: 5px 9px;
+    font-size: 0.9rem;
+    cursor: pointer;
 }
 .agencies__btn--primary:hover {
-    background-color: #0056b3;
+     transform: scale(1.05);
+    color: gray;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .agencies__table-container {

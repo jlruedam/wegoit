@@ -15,6 +15,4 @@ urlpatterns = [
     path("agencies/create/", views.agency_create, name="agency_create"),
     path("reservations/add-payment/", views.add_payment, name="add_payment"),
     path("reservations/<int:reservation_id>/payments/", views.reservation_payments_list, name="reservation_payments_list"),
-    path("dashboard/", views.dashboard, name="dashboard"),
-
 ]

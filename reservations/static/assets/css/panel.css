@@ -4,15 +4,30 @@
     justify-content: center;
     align-items: center;
     gap: 20px;
-    margin-top: 20px;
+    margin: 20px;
 }
 
 .card-container__head {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     text-align: center;
     margin: 10px;
+}
+
+
+.card-container__head .card-container__btn span{
+    font-size: 40px;
+    margin: 0 0 0 10px;
+    transition: all 0.5s;
+}
+
+.card-container__head .card-container__btn:hover span{
+    translate: 2px 2px;
+    background: gainsboro;
+    border-radius: 5px;
+    cursor: pointer;
+
 }
 
 .card {
@@ -20,8 +35,9 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
-    width: 250px;
+    width: 300px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    height: 310px;
 }
 
 .card h3 {

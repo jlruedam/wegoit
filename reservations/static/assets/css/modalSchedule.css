@@ -125,3 +125,22 @@
 .form__button:hover {
     background-color: #68a518;
 }
+
+
+/* button apertura tour */
+
+.card-container__head button{
+    background-color: whitesmoke;
+    color: var(--azul-oscuro);
+    border: 2px solid var(--azul-oscuro);
+    border-radius: 15px;
+    padding: 5px 9px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.card-container__head button:hover {
+    transform: scale(1.05);
+    color: gray;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}

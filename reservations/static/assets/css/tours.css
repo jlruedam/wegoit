@@ -1,0 +1,16 @@
+
+.toursTable__head {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.toursTable__btn {
+    margin: 10px;
+    padding: 5px;
+}
+
+.toursTable {
+    margin: 10px;
+}

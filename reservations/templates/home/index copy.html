@@ -1,0 +1,37 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Home {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/panel.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2>Tours Programados</h2>
+
+<div class="card-container">
+    {% for schedule in schedules %}
+    <div class="card">
+        <h3>{{ schedule.tour.tour_name }}</h3>
+        <p><strong>Fecha:</strong> {{ schedule.date }}</p>
+        <p><strong>Hora:</strong> {{ schedule.start_time }}</p>
+        <p><strong>Capacidad:</strong> {{ schedule.capacity }}</p>
+        <p><strong>Cupos disponibles:</strong> {{ schedule.available_spots }}</p>
+        <div class="card-buttons">
+            <a href="" class="btn btn-primary">Nueva Reserva</a>
+            <a href="{% url 'tours:reservation_list' schedule.id %}" class="btn btn-secondary">Ver Reservas</a>
+        </div>
+        <p>{{ schedule.opened }}</p>
+        <p>{{ schedule.tour.active }}</p>
+    </div>
+    {% empty %}
+    <p>No hay horarios disponibles.</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'tours/js/dashboard.js' %}"></script>
+{% endblock %}

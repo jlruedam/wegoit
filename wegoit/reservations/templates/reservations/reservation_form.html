@@ -1,0 +1,87 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/reservation_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<form id="reservation-form" class="reservation-form" method="post">
+    {% csrf_token %}
+    <h2 class="reservation-form__title">Nueva Reserva</h2>
+
+    <div class="reservation-form__group">
+        {{ form.schedule.label_tag }}
+        {{ form.schedule }}
+    </div>
+
+    <div class="reservation-form__group">
+        {{ form.base_price.label_tag }}
+        {{ form.base_price }}
+    </div>
+
+    <div class="reservation-form__group">
+        {{ form.customer_name.label_tag }}
+        {{ form.customer_name }}
+    </div>
+
+    <div class="reservation-form__group">
+        <label for="{{ form.type_document.id_for_label }}">Tipo de Documento</label>
+        {{ form.type_document }}
+    </div>
+
+
+    <div class="reservation-form__group">
+        {{ form.costumer_document.label_tag }}
+        {{ form.costumer_document }}
+    </div>
+
+    <div class="reservation-form__group">
+        {{ form.pax.label_tag }}
+        {{ form.pax }}
+    </div>
+
+    <div class="reservation-form__group">
+        {{ form.total_to_pay.label_tag }}
+        {{ form.total_to_pay }}
+    </div>
+
+    <div class="reservation-form__group">
+        {{ form.total_pending_balance.label_tag }}
+        {{ form.total_pending_balance }}
+    </div>
+
+    <div class="reservation-form__group">
+        {{ form.expected_agency_payment.label_tag }}
+        {{ form.expected_agency_payment }}
+    </div>
+
+    <div class="reservation-form__group">
+        {{ form.expected_customer_payment.label_tag }}
+        {{ form.expected_customer_payment }}
+    </div>
+
+    <div class="reservation-form__group">
+        {{ form.agency.label_tag }}
+        {{ form.agency }}
+    </div>
+
+    <div class="reservation-form__group">
+        {{ form.status.label_tag }}
+        {{ form.status }}
+    </div>
+
+    <div class="reservation-form__actions">
+        <button type="submit" class="reservation-form__btn reservation-form__btn--primary">
+            Guardar
+        </button>
+        <a href="" class="reservation-form__btn reservation-form__btn--secondary">
+            Cancelar
+        </a>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'assets/js/reservation_form.js' %}"></script>
+{% endblock %}

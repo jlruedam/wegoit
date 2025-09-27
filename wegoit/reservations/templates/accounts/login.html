@@ -1,0 +1,34 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+{% load static %}
+<div id="splash">
+    <img src="{% static 'assets/img/logo.png' %}" alt="Logo">
+</div>
+
+<!-- Contenido real de la página -->
+<div id="contenido">
+    <div class="background"></div>
+
+    
+    <div class="container">
+        <div class="header-container">
+            <header><img src="{% static 'assets/img/logo2.png' %}" alt="Logo"></header>
+        </div>
+        <form class="login" method="POST">
+            {% csrf_token %}
+            <h1>login</h1>
+            <div class="input-icon">
+                <span class="material-symbols-outlined">person</span>
+                <input type="text" placeholder="Usuario" name="username">
+            </div>
+            <div class="input-icon">
+                <span class="material-symbols-outlined">lock</span>
+                <input type="password" placeholder="Contraseña" name="password">
+            </div>
+            <button>Iniciar seccion</button>
+        </form>
+    </div>    
+</div>
+
+{% endblock %}

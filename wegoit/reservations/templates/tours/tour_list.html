@@ -1,0 +1,65 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Lista de Tours{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/tours.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/modalTour.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="toursTable">
+    <div class="toursTable__head">
+        <h2 class="toursTable__title">Tours Disponibles</h2>
+        <button class="toursTable__btn" id="openModalTourBtn">Nuevo Tour ➕</button>
+    </div>
+    
+    <table id="tourTable" class="display responsive nowrap toursTable__table" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio Base</th>
+                <th>Capacidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tour in tours %}
+            <tr>
+                <td>{{ tour.tour_name }}</td>
+                <td>{{ tour.base_price }}</td>
+                <td>{{ tour.default_capacity }}</td>
+                <td>
+                    <a href="{% url 'tours:schedule_list' tour.id %}">Ver Horarios</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Modal -->
+<div id="modalTour" class="modalTour">
+    <div class="modalTour__content">
+        <span class="modalTour__close" id="closeModalTourBtn">&times;</span>
+        <!-- <h2 class="modalScheduleTour__title">Título del Modal</h2> -->
+       
+        {% include "tours/tour_form.html"%}
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'assets/js/modalTour.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#tourTable').DataTable();
+    });
+</script>
+{% endblock %}

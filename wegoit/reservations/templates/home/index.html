@@ -1,0 +1,60 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Home {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/modalSchedule.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="card-container">
+    <div class="card-container__head">
+        <h2>Programación de tours</h2>
+        <button id="openModalScheduleTourBtn">Aperturar Tour ➕</button>
+    </div>
+    
+
+    {% for schedule in schedules %}
+    <div class="card">
+        <h3>{{ schedule.tour.tour_name }}</h3>
+        <p><strong>Fecha:</strong> {{ schedule.date }}</p>
+        <p><strong>Hora:</strong> {{ schedule.start_time }}</p>
+        <p><strong>Capacidad:</strong> {{ schedule.capacity }}</p>
+        <p><strong>Cupos disponibles:</strong> {{ schedule.available_spots }}</p>
+        <div class="card-buttons">
+            <a href="{% url 'tours:create_reservation' schedule.id %}" class="btn btn-primary">Nueva Reserva</a>
+            <a href="{% url 'tours:reservation_list' schedule.id %}" class="btn btn-secondary">Ver Reservas</a>
+        </div>
+        <p>{{ schedule.opened }}</p>
+        <p>{{ schedule.tour.active }}</p>
+    </div>
+    {% empty %}
+    <p>No hay horarios disponibles.</p>
+    {% endfor %}
+</div>
+
+
+<!-- Modal -->
+<div id="modalScheduleTour" class="modalScheduleTour">
+    <div class="modalScheduleTour__content">
+        <span class="modalScheduleTour__close" id="closeModalScheduleTourBtn">&times;</span>
+        <!-- <h2 class="modalScheduleTour__title">Título del Modal</h2> -->
+       
+        {% include "schedules/tour_schedule_form.html"%}
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- <script src="{% static 'tours/js/dashboard.js' %}"></script> -->
+<script src="{% static 'assets/js/modalScheduleTour.js' %}"></script>
+{% endblock %}
+

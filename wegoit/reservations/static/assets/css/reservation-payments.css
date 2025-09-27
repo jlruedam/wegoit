@@ -1,0 +1,76 @@
+/* Bloque principal */
+.payments {
+    padding: 2rem;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+/* Encabezado */
+.payments__header {
+    margin-bottom: 1.5rem;
+}
+
+.payments__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.payments__subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 0.3rem;
+}
+
+/* Tabla */
+.payments__table-container {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.payments__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.payments__table-head {
+    background-color: #f5f5f5;
+}
+
+.payments__table-header {
+    font-weight: 600;
+    padding: 0.8rem;
+    text-align: left;
+}
+
+.payments__table-body .payments__table-row:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.payments__table-cell {
+    padding: 0.8rem;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.payments__actions {
+    margin-bottom: 15px;
+}
+
+.payments__back-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    background-color: #2d89ef;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.payments__back-btn:hover {
+    background-color: #1a5fbd;
+}

@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     gap: 15px;
-    margin-top: 5px;
+    margin: 5px 0 5px 0;
     padding-bottom: 20px;
 }
 
@@ -21,8 +21,8 @@
     border: 1.5px solid #ddd;
     border-radius: 24px;
     padding: 20px;
-    width: 260px;
-    height: 290px;
+    width: 300px;
+    height: 300px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     margin: 0 5px;
 }
@@ -52,7 +52,7 @@
 .card-buttons {
     margin-top: 10px;
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     gap: 1px;
     width: 100%;
 }
@@ -89,3 +89,26 @@
     font-weight: normal;
 }
 
+
+/* button apertura tour */
+
+.card-container__head button{
+    background-color: whitesmoke;
+    color: var(--azul-oscuro);
+    border: 2px solid var(--azul-oscuro);
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.card-container__head button span {
+    margin: 5px;
+}
+
+.card-container__head button:hover {
+    transform: scale(1.05);
+    color: gray;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}

@@ -16,13 +16,15 @@
 <div class="card-container">
     <div class="card-container__head">
         <h2>Programación de tours</h2>
-        <button id="openModalScheduleTourBtn">Aperturar Tour ➕</button>
+        <button id="openModalScheduleTourBtn">
+            Tour <span class="material-symbols-outlined">add_ad</span>
+        </button>
     </div>
     
 
     {% for schedule in schedules %}
     <div class="card">
-        <h3>{{ schedule.tour.tour_name }}</h3>
+        <h3>{{ schedule.tour.tour_name|slice:":30" }}</h3>
         <p><strong>Fecha:</strong> {{ schedule.date }}</p>
         <p><strong>Hora:</strong> {{ schedule.start_time }}</p>
         <p><strong>Capacidad:</strong> {{ schedule.capacity }}</p>
@@ -31,8 +33,8 @@
             <a href="{% url 'tours:create_reservation' schedule.id %}" class="btn btn-primary">Nueva Reserva</a>
             <a href="{% url 'tours:reservation_list' schedule.id %}" class="btn btn-secondary">Ver Reservas</a>
         </div>
-        <p>{{ schedule.opened }}</p>
-        <p>{{ schedule.tour.active }}</p>
+        <p><strong>Estado:</strong> {{ schedule.opened|yesno:"Abierto,Cerrado" }}</p>
+        <p><strong>Tour activo:</strong> {{ schedule.tour.active|yesno:"Sí,No" }}</p>
     </div>
     {% empty %}
     <p>No hay horarios disponibles.</p>

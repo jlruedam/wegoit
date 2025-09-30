@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 {% load static %}
-
+{% load custom_filters %}
 {% block title %}Dashboard - We go it!{% endblock %}
 
 {% block extra_css %}
@@ -19,7 +19,6 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Programación</th>
-                    <th>Cupos Máx</th>
                     <th>Cupos Vendidos</th>
                     <th>Cupos Disponibles</th>
                     <th>Venta Total</th>
@@ -31,9 +30,31 @@
                 <tr>
                     <td>{{ s.tour }}</td>
                     <td>{{ s.programacion }}</td>
-                    <td>{{ s.capacity }}</td>
-                    <td>{{ s.sold_spots }}</td>
-                    <td>{{ s.available_spots }}</td>
+                    <td>
+                        {{ s.sold_spots }} de {{ s.capacity }}
+                        <meter 
+                            value="{{ s.sold_spots }}" 
+                            min="0" 
+                            max="{{ s.capacity }}" 
+                            low="{{ s.capacity|mul:0.2 }}" 
+                            high="{{ s.capacity|mul:0.7 }}" 
+                            optimum="{{ s.capacity|mul:0.9 }}">
+                            {{ s.sold_spots }} de {{ s.capacity }}
+                        </meter>
+                    </td>
+                    <!-- CUPOS DISPONIBLES -->
+                    <td>
+                        {{ s.available_spots }} de {{ s.capacity }}
+                        <meter 
+                            value="{{ s.available_spots }}" 
+                            min="0" 
+                            max="{{ s.capacity }}" 
+                            low="{{ s.capacity|mul:0.2 }}" 
+                            high="{{ s.capacity|mul:0.7 }}" 
+                            optimum="{{ s.capacity }}">
+                            {{ s.available_spots }} de {{ s.capacity }}
+                        </meter>
+                    </td>
                     <td>${{ s.total_sales|floatformat:2 }}</td>
                     <td>${{ s.pending|floatformat:2 }}</td>
                 </tr>

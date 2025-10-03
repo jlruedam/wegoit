@@ -23,18 +23,6 @@
                         </a>
                     </li>
                     <li>
-                        <a class="links lateral-menu-item-container" href="{% url 'tours:tour_list' %}">
-                            <span class="material-symbols-outlined">travel_explore</span>
-                            Tours
-                        </a>
-                    </li>
-                    <li>
-                        <a class="links lateral-menu-item-container" href="{% url 'tours:agency_list' %}">
-                            <span class="material-symbols-outlined">Villa</span>
-                            Agencias
-                        </a>
-                    </li>
-                    <li>
                         <a class="links lateral-menu-item-container" href="{% url 'tours:reservation_list_general' %}">
                             <span class="material-symbols-outlined">description</span>
                             Informe Reservas
@@ -46,6 +34,19 @@
                            Dashboard
                         </a>
                     </li>
+                    <li>
+                        <a class="links lateral-menu-item-container" href="{% url 'tours:tour_list' %}">
+                            <span class="material-symbols-outlined">travel_explore</span>
+                            Tours
+                        </a>
+                    </li>
+                    <li>
+                        <a class="links lateral-menu-item-container" href="{% url 'tours:agency_list' %}">
+                            <span class="material-symbols-outlined">Villa</span>
+                            Agencias
+                        </a>
+                    </li>
+                    
                     <!--
                     <li>
                         <div class="lateral-menu-item-container">
@@ -74,7 +75,7 @@
                     <li>
                         <a class="links lateral-menu-item-container" href="{% url 'accounts:logout' %}">
                             <span class="material-symbols-outlined">logout</span>
-                            logout
+                            Salir
                         </a>
                     </li>
                 </ul>

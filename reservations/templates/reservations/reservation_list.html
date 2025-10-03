@@ -1,5 +1,6 @@
 {% extends "layouts/base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Reservas del Tour{% endblock %}
 
@@ -12,61 +13,69 @@
 {% if not general %}
     <h2>Reservas para {{ schedule.tour.tour_name }} - {{ schedule.date }} {{ schedule.start_time }}</h2>
 {% endif %}
-<table id="reservationTable" class="display responsive nowrap" style="width:100%">
-    <thead>
-        <tr>
-            {% if general %}
-            <th>Tour</th>
-            {% endif %}
-            <th>Documento Cliente</th>
-            <th>Tipo Documento</th>
-            <th>Nombre Cliente</th>
-            <th>Cupos</th>
-            <th>Total a pagar</th>
-            <th>Saldo total Pendiente</th>
-            <th>Agencia</th>
-            <th>Estado</th>
-            <th>Agregar pagos</th>
-            <th>Ver pagos</th>
-            <th>Pendiente agencia</th>
-            <th>Pendiente Cliente</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for r in reservations %}
-        <tr>
-            {% if general %}
-            <td>{{ r.schedule.tour.tour_name }} - {{ r.schedule.date }} {{ r.schedule.start_time }}</td>
-            {% endif %}
-            <td>{{ r.costumer_document }}</td>
-            <td>{{ r.type_document }}</td>
-            <td>{{ r.customer_name }}</td>
-            <td>{{ r.pax }}</td>
-            <td>{{ r.total_to_pay }}</td>
-            <td>{{ r.pending_balance }}</td>
-            <td>{{ r.agency }}</td>
-            <td>{{ r.status }}</td>
-            <td>
-                <button class="open-payment-modal" data-reservation="{{ r.id }}">
-                    <span class="material-symbols-outlined">add_card</span>
-                </button>
-            </td>
-            <td>
-                {% if r.total_paid %}
-                <a href="{% url 'tours:reservation_payments_list' r.id %}">
-                    <button>
-                    <span class="material-symbols-outlined">visibility</span>
-                    </button>
-                </a>
-                {% endif %}
-            </td>
-            <td>{{ r.pending_agency_balance }}</td>
-            <td>{{ r.pending_customer_balance }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
 
+<div class="reservations-list-container">
+
+    <table id="reservationTable" class="display responsive nowrap" style="width:100%">
+        <thead>
+            <tr>
+                
+                <th>Tipo Documento</th>
+                <th>Nombre Cliente</th>
+                <th>Documento Cliente</th>
+                {% if general %}
+                <th>Tour</th>
+                <th>Programación Tour</th>
+                {% endif %}
+                <th>Cupos</th>
+                <th>Total a pagar</th>
+                <th>Saldo total Pendiente</th>
+                <th>Agencia</th>
+                <th>Estado</th>
+                <th>Agregar pagos</th>
+                <th>Ver pagos</th>
+                <th>Pendiente agencia</th>
+                <th>Pendiente Cliente</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in reservations %}
+            <tr>
+                
+                <td>{{ r.type_document }}</td>
+                <td>{{ r.customer_name }}</td>
+                <td>{{ r.costumer_document }}</td>
+                {% if general %}
+                <td>{{ r.schedule.tour.tour_name }} </td>
+                <td>{{ r.schedule.date }} {{ r.schedule.start_time }}</td>
+                {% endif %}
+                <td>{{ r.pax }}</td>
+                <td>${{ r.total_to_pay|floatformat:0|intcomma }}</td>
+                <td>${{ r.pending_balance|floatformat:0|intcomma }}</td>
+                <td>{{ r.agency }}</td>
+                <td>{{ r.status }}</td>
+                <td>
+                    <button class="open-payment-modal" data-reservation="{{ r.id }}">
+                        <span class="material-symbols-outlined">add_card</span>
+                    </button>
+                </td>
+                <td>
+                    {% if r.total_paid %}
+                    <a href="{% url 'tours:reservation_payments_list' r.id %}">
+                        <button>
+                        <span class="material-symbols-outlined">visibility</span>
+                        </button>
+                    </a>
+                    {% endif %}
+                </td>
+                <td>${{ r.pending_agency_balance|floatformat:0|intcomma }}</td>
+                <td>${{ r.pending_customer_balance|floatformat:0|intcomma }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
 <!-- Modal con <dialog> -->
 <dialog id="paymentModal">
     <form id="paymentForm" method="post" action="{% url 'tours:add_payment' %}" >

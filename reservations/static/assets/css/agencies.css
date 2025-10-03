@@ -24,7 +24,7 @@
 .agencies__title {
     font-size: 2rem;
     font-family: 'Poppins', sans-serif;
-    color: #2d3748;
+    color: var(--azul-oscuro);
     font-weight: 600;
     letter-spacing: 0.5px;
     display: flex;

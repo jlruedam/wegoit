@@ -243,3 +243,44 @@ footer {
   padding: 10px 0;
   z-index: 20;
 }
+
+/* --- SHARED COMPONENT STYLES --- */
+
+.reservations-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem; 
+    width: 100%;
+}
+
+.reservations-list-title {
+    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    color: #0D596A;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-crear-reserva {
+    background-color: var(--azul-marino);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s;
+    border: none; 
+    cursor: pointer;
+}
+
+.btn-crear-reserva:hover {
+    background-color: var(--azul-oscuro);
+}

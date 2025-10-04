@@ -4,22 +4,21 @@
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
     padding: 2rem;
+    background-color: #f7fafc; /* Add a light background to the dashboard */
 }
 
 /* Element: card */
 .dashboard__card {
     background: #fff;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 16px; /* Slightly larger radius */
+    padding: 2rem; /* Increase padding */
+    box-shadow: 0 8px 16px rgba(17, 24, 39, 0.05); /* Softer shadow */
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Element: title */
-.dashboard__title {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #333;
+.dashboard__card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08);
 }
 
 /* Modifier: tarjeta de tabla ocupa todo el ancho */
@@ -27,16 +26,106 @@
     grid-column: 1 / -1; /* Se expande en todas las columnas */
 }
 
-/* DataTable estilos básicos */
+/* --- HEADER STYLES (from admin.css for consistency) --- */
+.reservations-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0; /* Remove padding as card has its own */
+}
+
+.reservations-list-title {
+    font-size: 1.5rem; /* Adjust size for dashboard context */
+    font-family: 'Poppins', sans-serif;
+    color: var(--azul-oscuro);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-crear-reserva {
+    background-color: var(--azul-marino);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s;
+    border: none; 
+    cursor: pointer;
+}
+
+.btn-crear-reserva:hover {
+    background-color: var(--azul-oscuro);
+}
+
+
+/* --- TABLE STYLES (consistent with other tables) --- */
 #schedulesTable {
     width: 100% !important;
     border-collapse: collapse;
+    border-spacing: 0;
 }
 
 #schedulesTable th, 
 #schedulesTable td {
-    padding: 0.75rem;
-    text-align: center;
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
 }
 
+#schedulesTable th {
+    background: var(--azul-oscuro);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: left;
+}
 
+#schedulesTable tbody tr:nth-child(even) {
+    background-color: #f7fafc;
+}
+
+#schedulesTable tbody tr:hover {
+    background-color: #edf2f7;
+}
+
+/* --- METER ELEMENT STYLES --- */
+meter {
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Webkit browsers (Chrome, Safari) */
+meter::-webkit-meter-bar {
+    background: #edf2f7;
+    border: none;
+    border-radius: 6px;
+}
+
+meter::-webkit-meter-optimum-value,
+meter::-webkit-meter-suboptimum-value,
+meter::-webkit-meter-even-less-good-value {
+    border-radius: 6px;
+}
+
+meter::-webkit-meter-optimum-value { background: #38a169; } /* Green */
+meter::-webkit-meter-suboptimum-value { background: #f59e0b; } /* Amber */
+meter::-webkit-meter-even-less-good-value { background: #ef4444; } /* Red */
+
+/* Firefox */
+meter::-moz-meter-bar {
+    border-radius: 6px;
+}
+
+meter:-moz-meter-optimum::-moz-meter-bar { background: #38a169; } /* Green */
+meter:-moz-meter-sub-optimum::-moz-meter-bar { background: #f59e0b; } /* Amber */
+meter:-moz-meter-even-less-good::-moz-meter-bar { background: #ef4444; } /* Red */

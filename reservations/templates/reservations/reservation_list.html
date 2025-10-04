@@ -10,75 +10,86 @@
 {% endblock %}
 
 {% block content %}
-{% if not general %}
-    <h2>Reservas para {{ schedule.tour.tour_name }} - {{ schedule.date }} {{ schedule.start_time }}</h2>
-{% endif %}
-
 <div class="reservations-list-container">
+    <div class="reservations-header">
+        <h2 class="reservations-list-title">
+            <span class="material-symbols-outlined">receipt_long</span>
+            {% if general %}
+                Listado General de Reservas
+            {% else %}
+                Reservas para {{ schedule.tour.tour_name }}
+            {% endif %}
+        </h2>
+        <a href="" class="btn-crear-reserva">
+            <span class="material-symbols-outlined">add_circle</span>
+            Nueva Reserva
+        </a>
+    </div>
+
+    {% if not general %}
+        <div class="schedule-info">
+            <p><strong>Fecha:</strong> {{ schedule.date }}</p>
+            <p><strong>Hora:</strong> {{ schedule.start_time }}</p>
+        </div>
+    {% endif %}
 
     <table id="reservationTable" class="display responsive nowrap" style="width:100%">
         <thead>
             <tr>
-                
-                <th>Tipo Documento</th>
                 <th>Nombre Cliente</th>
-                <th>Documento Cliente</th>
+                <th>Documento</th>
                 {% if general %}
                 <th>Tour</th>
-                <th>Programación Tour</th>
+                <th>Programación</th>
                 {% endif %}
                 <th>Cupos</th>
-                <th>Total a pagar</th>
-                <th>Saldo total Pendiente</th>
+                <th>Total a Pagar</th>
+                <th>Saldo Pendiente</th>
                 <th>Agencia</th>
                 <th>Estado</th>
-                <th>Agregar pagos</th>
-                <th>Ver pagos</th>
-                <th>Pendiente agencia</th>
-                <th>Pendiente Cliente</th>
+                <th>Pagos</th>
+                <th>Ver Pagos</th>
             </tr>
         </thead>
         <tbody>
             {% for r in reservations %}
             <tr>
-                
-                <td>{{ r.type_document }}</td>
                 <td>{{ r.customer_name }}</td>
-                <td>{{ r.costumer_document }}</td>
+                <td>{{ r.type_document }} {{ r.costumer_document }}</td>
                 {% if general %}
-                <td>{{ r.schedule.tour.tour_name }} </td>
-                <td>{{ r.schedule.date }} {{ r.schedule.start_time }}</td>
+                <td>{{ r.schedule.tour.tour_name }}</td>
+                <td>{{ r.schedule.date|date:"d/m/y" }} {{ r.schedule.start_time|time:"H:i" }}</td>
                 {% endif %}
                 <td>{{ r.pax }}</td>
                 <td>${{ r.total_to_pay|floatformat:0|intcomma }}</td>
-                <td>${{ r.pending_balance|floatformat:0|intcomma }}</td>
-                <td>{{ r.agency }}</td>
-                <td>{{ r.status }}</td>
+                <td class="{% if r.pending_balance > 0 %}saldo-pendiente{% else %}saldo-pagado{% endif %}">
+                    ${{ r.pending_balance|floatformat:0|intcomma }}
+                </td>
+                <td>{{ r.agency|default:"N/A" }}</td>
+                <td><span class="status-badge status-{{ r.status|lower }}">{{ r.status }}</span></td>
                 <td>
-                    <button class="open-payment-modal" data-reservation="{{ r.id }}">
+                    <button class="open-payment-modal" data-reservation="{{ r.id }}" title="Agregar Pago">
                         <span class="material-symbols-outlined">add_card</span>
                     </button>
                 </td>
                 <td>
-                    {% if r.total_paid %}
-                    <a href="{% url 'tours:reservation_payments_list' r.id %}">
-                        <button>
-                        <span class="material-symbols-outlined">visibility</span>
+                    {% if r.total_paid > 0 %}
+                    <a href="{% url 'tours:reservation_payments_list' r.id %}" title="Ver Pagos">
+                        <button class="btn-ver-pagos">
+                            <span class="material-symbols-outlined">visibility</span>
                         </button>
                     </a>
                     {% endif %}
                 </td>
-                <td>${{ r.pending_agency_balance|floatformat:0|intcomma }}</td>
-                <td>${{ r.pending_customer_balance|floatformat:0|intcomma }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
 </div>
-<!-- Modal con <dialog> -->
+
+<!-- Modal de Pagos -->
 <dialog id="paymentModal">
-    <form id="paymentForm" method="post" action="{% url 'tours:add_payment' %}" >
+    <form id="paymentForm" method="post" action="{% url 'tours:add_payment' %}">
         {% csrf_token %}
         <h3>Registrar Pago</h3>
         <input type="hidden" name="reservation_id" id="reservationId">
@@ -110,68 +121,69 @@
 {% endblock %}
 
 {% block extra_js %}
-<!-- <script src="{% static 'assets/js/reservations.js' %}"></script> -->
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        // Inicializar DataTable
-        $('#reservationTable').DataTable();
+document.addEventListener("DOMContentLoaded", () => {
+    $('#reservationTable').DataTable({
+        responsive: true,
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+        }
+    });
 
-        const modal = document.getElementById("paymentModal");
-        const reservationInput = document.getElementById("reservationId");
-        const closeBtn = document.getElementById("closePaymentModal");
-        const form = document.getElementById("paymentForm");
+    const modal = document.getElementById("paymentModal");
+    const reservationInput = document.getElementById("reservationId");
+    const closeBtn = document.getElementById("closePaymentModal");
+    const form = document.getElementById("paymentForm");
+    
+    const messageBox = document.createElement("div");
+    messageBox.id = "paymentMessage";
+    form.prepend(messageBox);
 
-        // Crear contenedor de mensajes dentro del modal
-        const messageBox = document.createElement("div");
-        messageBox.id = "paymentMessage";
-        form.prepend(messageBox);
+    document.querySelector("#reservationTable").addEventListener("click", (e) => {
+        const openBtn = e.target.closest(".open-payment-modal");
+        if (openBtn) {
+            const reservationId = openBtn.getAttribute("data-reservation");
+            reservationInput.value = reservationId;
+            
+            form.reset();
+            messageBox.innerText = "";
+            messageBox.className = "";
+            
+            modal.showModal();
+        }
+    });
 
-        // Abrir modal con el id de la reserva
-        document.querySelector("#reservationTable").addEventListener("click", (e) => {
-            if (e.target.closest(".open-payment-modal")) {
-                const btn = e.target.closest(".open-payment-modal");
-                const reservationId = btn.getAttribute("data-reservation");
-                reservationInput.value = reservationId;
-                messageBox.innerText = ""; // limpia mensajes previos
-                messageBox.className = "";
-                modal.showModal();
+    closeBtn.addEventListener("click", () => modal.close());
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-CSRFToken": formData.get("csrfmiddlewaretoken")
             }
-        });
+        })
+        .then(res => res.json())
+        .then(data => {
+            messageBox.innerText = data.message;
+            messageBox.className = data.success ? "msg-success" : "msg-error";
 
-        // Cerrar modal
-        closeBtn.addEventListener("click", () => {
-            modal.close();
-        });
-
-        // Interceptar el envío del formulario
-        form.addEventListener("submit", function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                method: "POST",
-                body: formData,
-            })
-            .then(res => res.json())
-            .then(data => {
-                messageBox.innerText = data.message;
-                messageBox.className = data.success ? "msg-success" : "msg-error";
-
-                if (data.success) {
-                    setTimeout(() => {
-                        modal.close();
-                        location.reload(); // refresca tabla para ver el pago
-                    }, 1200);
-                }
-            })
-            .catch(err => {
-                console.error("Error:", err);
-                messageBox.innerText = "Ocurrió un error inesperado.";
-                messageBox.className = "msg-error";
-            });
+            if (data.success) {
+                setTimeout(() => {
+                    modal.close();
+                    location.reload();
+                }, 1200);
+            }
+        })
+        .catch(err => {
+            console.error("Error:", err);
+            messageBox.innerText = "Ocurrió un error inesperado.";
+            messageBox.className = "msg-error";
         });
     });
+});
 </script>
-
 {% endblock %}

@@ -32,7 +32,7 @@
         <p><strong>Fecha:</strong> {{ schedule.date }}</p>
         <p><strong>Hora:</strong> {{ schedule.start_time }}</p>
         <p><strong>Capacidad:</strong> {{ schedule.capacity }}</p>
-        <p><strong>Cupos disponibles:</strong> {{ schedule.available_spots }}</p>
+        <p><strong>Cupos disponibles:</strong> <span class="available-spots">{{ schedule.available_spots }}</span></p>
         <div class="card-buttons">
             <a href="{% url 'tours:create_reservation' schedule.id %}" class="btn btn-primary">Nueva Reserva</a>
             <a href="{% url 'tours:reservation_list' schedule.id %}" class="btn btn-secondary">Ver Reservas</a>

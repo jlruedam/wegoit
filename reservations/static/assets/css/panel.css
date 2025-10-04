@@ -72,3 +72,8 @@
 .btn-secondary:hover {
     background-color: #004d26;
 }
+
+.available-spots {
+    color: #28a745; /* Green color for availability */
+    
+}

@@ -1,6 +1,5 @@
 {% extends "layouts/base.html" %}
-{% load static %}
-{% load custom_filters %}
+{% load static humanize custom_filters %}
 {% block title %}Dashboard - We go it!{% endblock %}
 
 {% block extra_css %}
@@ -64,8 +63,8 @@
                             {{ s.available_spots }} de {{ s.capacity }}
                         </meter>
                     </td>
-                    <td>${{ s.total_sales|floatformat:2 }}</td>
-                    <td>${{ s.pending|floatformat:2 }}</td>
+                    <td>${{ s.total_sales|floatformat:0|intcomma }}</td>
+                    <td>${{ s.pending|floatformat:0|intcomma }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -1,5 +1,6 @@
 {% extends "layouts/base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Lista de Tours{% endblock %}
 
@@ -28,7 +29,7 @@
             {% for tour in tours %}
             <tr>
                 <td>{{ tour.tour_name }}</td>
-                <td>{{ tour.base_price }}</td>
+                <td>${{ tour.base_price|floatformat:0|intcomma }}</td>
                 <td>{{ tour.default_capacity }}</td>
                 <td>
                     <a href="{% url 'tours:schedule_list' tour.id %}">Ver Horarios</a>

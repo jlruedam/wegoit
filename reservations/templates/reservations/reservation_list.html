@@ -49,6 +49,8 @@
                 <th>Estado</th>
                 <th>Pagos</th>
                 <th>Ver Pagos</th>
+                <th>Pendiente Agencia</th>
+                <th>Pendiente Cliente</th>
             </tr>
         </thead>
         <tbody>
@@ -81,6 +83,8 @@
                     </a>
                     {% endif %}
                 </td>
+                <td>${{ r.pending_agency_balance|floatformat:0|intcomma }}</td>
+                <td>${{ r.pending_customer_balance|floatformat:0|intcomma }}</td>
             </tr>
             {% endfor %}
         </tbody>

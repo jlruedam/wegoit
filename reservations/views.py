@@ -335,3 +335,58 @@ def export_reservations_xls(request):
     workbook.save(response)
 
     return response
+
+@login_required
+def export_schedule_reservations_xls(request, schedule_id):
+    schedule = get_object_or_404(TourSchedule, id=schedule_id)
+    reservations = Reservation.objects.filter(schedule=schedule).select_related(
+        "schedule__tour", "agency"
+    ).all()
+
+    workbook = openpyxl.Workbook()
+    worksheet = workbook.active
+    worksheet.title = f"Reservas {schedule.tour.tour_name} - {schedule.date}"
+
+    headers = [
+        "ID Reserva",
+        "Tour",
+        "Fecha",
+        "Hora",
+        "Cliente",
+        "Teléfono",
+        "Pax",
+        "Total a Pagar",
+        "A Pagar por Agencia",
+        "A Pagar por Cliente",
+        "Saldo Pendiente",
+        "Agencia",
+        "NIT Agencia",
+        "Estado",
+    ]
+    worksheet.append(headers)
+
+    for r in reservations:
+        worksheet.append([
+            r.id,
+            r.schedule.tour.tour_name,
+            r.schedule.date,
+            r.schedule.start_time,
+            r.customer_name,
+            r.customer_phone,
+            r.pax,
+            r.total_to_pay,
+            r.expected_agency_payment,
+            r.expected_customer_payment,
+            r.pending_balance,
+            r.agency.name if r.agency else "N/A",
+            r.agency.tax_id if r.agency else "N/A",
+            r.status,
+        ])
+
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = f"attachment; filename=reservas_{schedule.tour.tour_name}_{schedule.date}.xlsx"
+    workbook.save(response)
+
+    return response

@@ -143,6 +143,14 @@ def add_payment(request):
             })
 
         payment.save()
+
+        # After saving the payment, check if the reservation is fully paid
+        # Re-fetch the reservation to get updated pending_balance
+        reservation.refresh_from_db()
+        if reservation.pending_balance == 0:
+            reservation.status = "Pagado"
+            reservation.save()
+
         return JsonResponse({"success": True, "message": "Pago registrado correctamente."})
 
     return JsonResponse({"success": False, "message": "Hubo un error al registrar el pago."})

@@ -25,6 +25,10 @@
             <span class="material-symbols-outlined">arrow_back</span>
             Volver
         </a>
+        <a href="{% url 'tours:create_reservation' schedule.id %}" class="btn-crear-reserva">
+            <span class="material-symbols-outlined">add_circle</span>
+            Nueva Reserva
+        </a>
         <a href="{% url 'tours:export_schedule_reservations_xls' schedule.id %}" class="btn-exportar">
             <span class="material-symbols-outlined">download</span>
         </a>
@@ -78,7 +82,11 @@
                     ${{ r.pending_balance|floatformat:0|intcomma }}
                 </td>
                 <td>{{ r.agency|default:"N/A" }}</td>
-                <td><span class="status-badge status-{{ r.status|lower }}">{{ r.status }}</span></td>
+                <td>
+                    <span class="status-badge {% if r.status == 'Reservado' and r.pending_balance > 0 %}status-pendiente{% else %}status-{{ r.status|lower }}{% endif %}">
+                        {{ r.status }}
+                    </span>
+                </td>
                 <td>
                     <button class="open-payment-modal" data-reservation="{{ r.id }}" title="Agregar Pago">
                         <span class="material-symbols-outlined">add_card</span>

@@ -74,6 +74,18 @@ class ReservationForm(forms.ModelForm):
             "agency",
             "status",
         ]
+        labels = {
+            "schedule": "Programación",
+            "costumer_document": "Documento Cliente",
+            "customer_name": "Nombre Cliente",
+            "customer_phone": "Teléfono Cliente",
+            "pax": "Número de Personas",
+            "total_to_pay": "Total a Pagar",
+            "expected_agency_payment": "Pago Esperado Agencia",
+            "expected_customer_payment": "Pago Esperado Cliente",
+            "agency": "Agencia",
+            "status": "Estado",
+        }
 
     def __init__(self, *args, **kwargs):
         schedule = kwargs.pop("schedule", None)

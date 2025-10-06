@@ -43,7 +43,7 @@ td:nth-child(5) { /* Agencia */
 }
 
 #reservationTable th, #scheduleTable th {
-    background: #0D596A;
+    background: var(--azul-oscuro);
     color: #fff;
     font-weight: 700;
     padding: 1rem 0.7rem;
@@ -237,23 +237,38 @@ dialog#paymentModal {
 }
 
 .status-badge {
-    padding: 0.3rem 0.6rem;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 600;
+    padding: 0.4rem 0.8rem; /* Slightly increased padding */
+    border-radius: 9999px; /* Pill shape */
+    font-size: 0.8rem; /* Slightly smaller font */
+    font-weight: 700; /* Bolder font */
     color: white;
+    display: inline-flex; /* Ensure it behaves like a block for padding/sizing */
+    align-items: center;
+    justify-content: center;
+    min-width: 80px; /* Ensure minimum width for consistency */
+    text-transform: uppercase; /* Uppercase text */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .status-reservado {
-    background-color: #3182ce; /* Blue */
+    background-color: var(--azul-marino, #1B9899); /* Using app's blue/teal */
 }
 
 .status-confirmado {
-    background-color: #38a169; /* Green */
+    background-color: #38a169; /* A standard green */
+}
+
+.status-pagado {
+    background-color: #28a745; /* A slightly different green for paid */
 }
 
 .status-cancelado {
-    background-color: #e53e3e; /* Red */
+    background-color: #e53e3e; /* Standard red */
+}
+
+.status-pendiente {
+    background-color: #ffc107; /* Yellow/Orange for pending */
+    color: #343a40;
 }
 
 .btn-ver-pagos {

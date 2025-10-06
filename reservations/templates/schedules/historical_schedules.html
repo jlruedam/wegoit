@@ -1,0 +1,54 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Histórico de Programaciones{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/schedules.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/reservations.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="reservations-list-container">
+    <h2 class="reservations-list-title">Histórico de Programaciones</h2>
+    <table id="scheduleTable" class="display responsive nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>Tour</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Capacidad</th>
+                <th>Cupos Disponibles</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for schedule in schedules %}
+            <tr>
+                <td>{{ schedule.tour.tour_name }}</td>
+                <td>{{ schedule.date|date:"Y-m-d" }}</td>
+                <td>{{ schedule.start_time }}</td>
+                <td>{{ schedule.capacity }}</td>
+                <td>{{ schedule.available_spots }}</td>
+                <td>{% if schedule.opened %}Abierto{% else %}Cerrado{% endif %}</td>
+                <td>
+                    <a href="{% url 'tours:reservation_list' schedule.id %}">
+                        <span class="material-symbols-outlined">visibility</span> Ver Reservas
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'assets/js/schedules.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#scheduleTable').DataTable({ "order": [[ 1, "desc" ]] });
+    });
+</script>
+{% endblock %}

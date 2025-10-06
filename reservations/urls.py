@@ -18,5 +18,6 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("reservations/export-xls/", views.export_reservations_xls, name="export_reservations_xls"),
     path("schedules/<int:schedule_id>/reservations/export-xls/", views.export_schedule_reservations_xls, name="export_schedule_reservations_xls"),
+    path("schedules/historical/", views.historical_schedules, name="historical_schedules"),
 
 ]

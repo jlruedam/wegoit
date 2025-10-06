@@ -1,6 +1,6 @@
 <header>
     <div class="container1">
-        <h2>Panel de administracion</h2>
+        <h2 class="reservations-list-title">Panel de administracion</h2>
         <div class="login-panel">
             <p>{{ request.user.username }}</p>
             <label class="login-panel-selector" for=""> 
@@ -38,6 +38,12 @@
                         <a class="links lateral-menu-item-container" href="{% url 'tours:tour_list' %}">
                             <span class="material-symbols-outlined">travel_explore</span>
                             Tours
+                        </a>
+                    </li>
+                    <li>
+                        <a class="links lateral-menu-item-container" href="{% url 'tours:historical_schedules' %}">
+                            <span class="material-symbols-outlined">history</span>
+                            Histórico Programaciones
                         </a>
                     </li>
                     <li>

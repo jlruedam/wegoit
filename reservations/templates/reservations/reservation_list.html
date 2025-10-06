@@ -21,15 +21,17 @@
             {% endif %}
         </h2>
         {% if not general %}
+        <a href="javascript:history.back()" class="btn-volver">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Volver
+        </a>
         <a href="{% url 'tours:export_schedule_reservations_xls' schedule.id %}" class="btn-exportar">
             <span class="material-symbols-outlined">download</span>
-            Exportar a Excel
         </a>
         {% endif %}
         {% if general %}
         <a href="{% url 'tours:export_reservations_xls' %}" class="btn-exportar">
             <span class="material-symbols-outlined">download</span>
-            Exportar a Excel
         </a>
         {% endif %}
     </div>

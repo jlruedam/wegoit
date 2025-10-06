@@ -279,3 +279,7 @@ footer {
 .btn-crear-reserva:hover {
     background-color: var(--azul-oscuro);
 }
+
+.container1 .reservations-list-title {
+    color: white;
+}

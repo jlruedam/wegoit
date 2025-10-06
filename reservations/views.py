@@ -354,8 +354,6 @@ def export_reservations_xls(request):
 
     return response
 
-
-# ---------------- EXCEL EXPORTS ----------------
 @login_required
 def export_schedule_reservations_xls(request, schedule_id):
     schedule = get_object_or_404(TourSchedule, id=schedule_id)
@@ -410,3 +408,8 @@ def export_schedule_reservations_xls(request, schedule_id):
     workbook.save(response)
 
     return response
+
+@login_required
+def historical_schedules(request):
+    schedules = TourSchedule.objects.all().order_by('-date', '-start_time')
+    return render(request, "schedules/historical_schedules.html", {"schedules": schedules})

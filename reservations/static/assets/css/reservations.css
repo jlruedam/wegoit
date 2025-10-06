@@ -42,7 +42,7 @@ td:nth-child(5) { /* Agencia */
     border-spacing: 0;
 }
 
-#reservationTable th {
+#reservationTable th, #scheduleTable th {
     background: #0D596A;
     color: #fff;
     font-weight: 700;
@@ -315,23 +315,47 @@ dialog#paymentModal {
 }
 
 .btn-exportar {
-    background-color: #28a745; /* Green color for Excel */
+    background-color: var(--azul-oscuro, #0D596A); /* Use app's primary color */
     color: #fff;
     border: none;
+    border-radius: 15px; /* Keep rounded corners */
+    width: 40px; /* Fixed width for square icon */
+    height: 40px; /* Fixed height for square icon */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the icon */
+    font-size: 1.2rem; /* Adjust icon size */
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(13, 89, 106, 0.1); /* Adjust shadow to match color */
+    transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+}
+
+.btn-exportar:hover {
+    background-color: var(--azul-marino, #1B9899); /* Use another app color for hover */
+    color: #e2e8f0;
+}
+
+.btn-volver {
+    background-color: transparent;
+    color: var(--azul-oscuro, #0D596A);
+    border: 1px solid transparent; /* Subtle border */
     border-radius: 15px;
     padding: 10px 18px;
     font-size: 1rem;
     cursor: pointer;
     font-weight: 500;
-    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
-    transition: background 0.2s, color 0.2s;
+    box-shadow: none; /* Remove shadow */
+    transition: all 0.2s ease-in-out; /* Smooth transition for all properties */
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    text-decoration: none; /* Ensure links look like buttons */
+    text-decoration: none;
 }
 
-.btn-exportar:hover {
-    background-color: #218838; /* Darker green on hover */
-    color: #e2e8f0;
+.btn-volver:hover {
+    background-color: rgba(13, 89, 106, 0.1); /* Light background on hover */
+    border-color: var(--azul-oscuro, #0D596A); /* Border on hover */
+    color: var(--azul-oscuro, #0D596A);
 }

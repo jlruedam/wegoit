@@ -59,16 +59,18 @@ def tour_list(request):
 def tour_update(request, pk):
     tour = get_object_or_404(Tour, pk=pk)
     if request.method == "POST":
-        form = TourForm(request.POST, instance=tour)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({"success": True, "message": "Tour actualizado correctamente."}) # Return JSON for AJAX
-        else:
-            return JsonResponse({"success": False, "errors": form.errors}) # Return errors for AJAX
+        try:
+            form = TourForm(request.POST, instance=tour)
+            if form.is_valid():
+                form.save()
+                return JsonResponse({"success": True, "message": "Tour actualizado correctamente."})
+            else:
+                return JsonResponse({"success": False, "errors": form.errors})
+        except Exception as e:
+            return JsonResponse({"success": False, "message": f"Error interno del servidor: {str(e)}"}, status=500)
     else:
-        # This part might not be strictly necessary if modal always loads via JS, but good for direct access
         form = TourForm(instance=tour)
-    return JsonResponse({"success": False, "message": "Método no permitido"}) # Or render a form if accessed directly via GET
+    return JsonResponse({"success": False, "message": "Método no permitido"}, status=405)
 
 # ---------------- SCHEDULE ----------------
 @login_required
@@ -197,6 +199,23 @@ def agency_create(request):
         if form.is_valid():
             form.save()
     return redirect("tours:agency_list")
+
+@login_required
+def agency_update(request, pk):
+    agency = get_object_or_404(Agency, pk=pk)
+    if request.method == "POST":
+        try:
+            form = AgencyForm(request.POST, instance=agency)
+            if form.is_valid():
+                form.save()
+                return JsonResponse({"success": True, "message": "Agencia actualizada correctamente."})
+            else:
+                return JsonResponse({"success": False, "errors": form.errors})
+        except Exception as e:
+            return JsonResponse({"success": False, "message": f"Error interno del servidor: {str(e)}"}, status=500)
+    else:
+        form = AgencyForm(instance=agency)
+    return JsonResponse({"success": False, "message": "Método no permitido"}, status=405)
 
 @login_required
 def dashboard(request):

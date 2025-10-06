@@ -33,7 +33,7 @@
                 <td>${{ tour.base_price|floatformat:0|intcomma }}</td>
                 <td>{{ tour.default_capacity }}</td>
                 <td>
-                    <a href="{% url 'tours:schedule_list' tour.id %}">Ver Horarios</a>
+                    <a href="{% url 'tours:schedule_list' tour.id %}"><span class="material-symbols-outlined">visibility</span></a>
                 </td>
                 <td>
                     <button class="editTourBtn btn-apertura-tour"

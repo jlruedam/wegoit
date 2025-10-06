@@ -26,6 +26,11 @@
     </div>
 
     <div class="reservation-form__group">
+        {{ form.customer_phone.label_tag }}
+        {{ form.customer_phone }}
+    </div>
+
+    <div class="reservation-form__group">
         <label for="{{ form.type_document.id_for_label }}">Tipo de Documento</label>
         {{ form.type_document }}
     </div>

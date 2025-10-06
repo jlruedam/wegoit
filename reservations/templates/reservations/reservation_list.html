@@ -37,7 +37,7 @@
         <thead>
             <tr>
                 <th>Nombre Cliente</th>
-                <th>Documento</th>
+                <th>Teléfono</th>
                 {% if general %}
                 <th>Tour</th>
                 <th>Programación</th>
@@ -57,7 +57,7 @@
             {% for r in reservations %}
             <tr>
                 <td>{{ r.customer_name }}</td>
-                <td>{{ r.type_document }} {{ r.costumer_document }}</td>
+                <td>{{ r.customer_phone|default:"N/A" }}</td>
                 {% if general %}
                 <td>{{ r.schedule.tour.tour_name }}</td>
                 <td>{{ r.schedule.date|date:"d/m/y" }} {{ r.schedule.start_time|time:"H:i" }}</td>

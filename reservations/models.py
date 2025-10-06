@@ -27,6 +27,7 @@ class AuditModel(models.Model):
 
 class Agency(models.Model):
     name = models.CharField(max_length=255)
+    tax_id = models.CharField(max_length=20, blank=True, null=True)
     phone = models.CharField(max_length=50, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
 
@@ -84,8 +85,9 @@ class Reservation(AuditModel):
     
     schedule = models.ForeignKey(TourSchedule, on_delete=models.CASCADE, related_name="reservations")
     type_document = models.CharField(max_length=50, null=True, blank=True)
-    costumer_document = models.IntegerField()
+    costumer_document = models.IntegerField(null=True, blank=True)
     customer_name = models.CharField(max_length=255)
+    customer_phone = models.CharField(max_length=20, blank=True, null=True)
     pax = models.IntegerField()
     total_to_pay = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
@@ -123,8 +125,6 @@ class Reservation(AuditModel):
     @property
     def is_fully_paid(self):
         return self.pending_balance() == 0
-
-    
 
 class ReservationPayment(models.Model):
     PAYMENT_SOURCE_CHOICES = [

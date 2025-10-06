@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
+                    <th>NIT</th>
                     <th>Teléfono</th>
                     <th>Email</th>
                 </tr>
@@ -28,6 +29,7 @@
                 {% for agency in agencies %}
                 <tr>
                     <td>{{ agency.name }}</td>
+                    <td>{{ agency.tax_id|default:"-" }}</td>
                     <td>{{ agency.phone|default:"-" }}</td>
                     <td>{{ agency.email|default:"-" }}</td>
                 </tr>
@@ -47,6 +49,10 @@
             <div class="modal__form-group">
                 {{ form.name.label_tag }}
                 {{ form.name }}
+            </div>
+            <div class="modal__form-group">
+                {{ form.tax_id.label_tag }}
+                {{ form.tax_id }}
             </div>
             <div class="modal__form-group">
                 {{ form.phone.label_tag }}

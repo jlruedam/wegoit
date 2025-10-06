@@ -66,6 +66,7 @@ class ReservationForm(forms.ModelForm):
             "type_document",    
             "costumer_document",
             "customer_name",
+            "customer_phone",
             "pax",
             "total_to_pay",
             "expected_agency_payment",
@@ -90,15 +91,22 @@ class ReservationForm(forms.ModelForm):
         self.fields["status"].initial = "Reservado"
         self.fields["status"].disabled = True
 
+        self.fields["type_document"].required = False
+        self.fields["costumer_document"].required = False
+
 
 class AgencyForm(forms.ModelForm):
     class Meta:
         model = Agency
-        fields = ["name", "phone", "email"]
+        fields = ["name", "tax_id", "phone", "email"]
         widgets = {
             "name": forms.TextInput(attrs={
                 "class": "modal__input",
                 "placeholder": "Nombre de la agencia"
+            }),
+            "tax_id": forms.TextInput(attrs={
+                "class": "modal__input",
+                "placeholder": "NIT de la agencia"
             }),
             "phone": forms.TextInput(attrs={
                 "class": "modal__input",
@@ -111,6 +119,7 @@ class AgencyForm(forms.ModelForm):
         }
         labels = {
             "name": "Nombre",
+            "tax_id": "NIT",
             "phone": "Teléfono",
             "email": "Email",
         }

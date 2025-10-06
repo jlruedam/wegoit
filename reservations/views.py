@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Tour, TourSchedule, Reservation, Agency, ReservationPayment
 from django.db.models import Sum, Count
 from reservations.modules.open_tours import open_tours_day
+from reservations.modules.close_old_schedules import close_old_schedules
 from .forms import TourScheduleForm, ReservationForm, TourForm, AgencyForm, ReservationPaymentForm
 from django.contrib import messages
 from django.views.decorators.http import require_POST
@@ -21,6 +22,8 @@ def home(request):
             form.save()
         return redirect("tours:home")
     
+    close_old_schedules() # Call the function to close old schedules
+
     tours = Tour.objects.all()
     schedules = TourSchedule.objects.filter(opened = True)
     form = TourScheduleForm()
@@ -129,6 +132,7 @@ def add_payment(request):
         return JsonResponse({"success": True, "message": "Pago registrado correctamente."})
 
     return JsonResponse({"success": False, "message": "Hubo un error al registrar el pago."})
+
 @login_required
 def reservation_payments_list(request, reservation_id):
     # Traemos la reserva o mostramos 404 si no existe
@@ -336,6 +340,8 @@ def export_reservations_xls(request):
 
     return response
 
+
+# ---------------- EXCEL EXPORTS ----------------
 @login_required
 def export_schedule_reservations_xls(request, schedule_id):
     schedule = get_object_or_404(TourSchedule, id=schedule_id)

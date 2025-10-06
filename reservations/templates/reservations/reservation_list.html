@@ -25,10 +25,12 @@
             <span class="material-symbols-outlined">arrow_back</span>
             Volver
         </a>
+        {% if schedule.opened %}
         <a href="{% url 'tours:create_reservation' schedule.id %}" class="btn-crear-reserva">
             <span class="material-symbols-outlined">add_circle</span>
             Nueva Reserva
         </a>
+        {% endif %}
         <a href="{% url 'tours:export_schedule_reservations_xls' schedule.id %}" class="btn-exportar">
             <span class="material-symbols-outlined">download</span>
         </a>

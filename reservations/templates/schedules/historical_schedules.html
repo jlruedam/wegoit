@@ -38,7 +38,11 @@
                 <td>${{ data.total_sales|floatformat:0|intcomma }}</td>
                 <td>${{ data.pending_total|floatformat:0|intcomma }}</td>
                 <td>${{ data.pending_agency_total|floatformat:0|intcomma }}</td>
-                <td>{% if data.schedule.opened %}Abierto{% else %}Cerrado{% endif %}</td>
+                <td>
+                    <span class="status-badge {% if data.schedule.opened %}status-confirmado{% else %}status-cancelado{% endif %}">
+                        {% if data.schedule.opened %}Abierto{% else %}Cerrado{% endif %}
+                    </span>
+                </td>
                 <td>
                     <a href="{% url 'tours:reservation_list' data.schedule.id %}">
                         <span class="material-symbols-outlined">visibility</span> Ver Reservas

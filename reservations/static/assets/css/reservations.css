@@ -313,3 +313,25 @@ dialog#paymentModal {
     background: #2563eb;
     color: #e2e8f0;
 }
+
+.btn-exportar {
+    background-color: #28a745; /* Green color for Excel */
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none; /* Ensure links look like buttons */
+}
+
+.btn-exportar:hover {
+    background-color: #218838; /* Darker green on hover */
+    color: #e2e8f0;
+}

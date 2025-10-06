@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Tour, TourSchedule, Reservation, Agency, ReservationPayment
 from django.db.models import Sum, Count
@@ -10,6 +10,7 @@ from django.views.decorators.http import require_POST
 from django.db.models.functions import Coalesce
 from django.db.models import Value, Q, DecimalField
 from django.db.models.functions import TruncMonth
+import openpyxl
 
 # Create your views here.
 @login_required
@@ -280,3 +281,55 @@ def dashboard(request):
     }
 
     return render(request, "dashboard/dashboard.html", context)
+
+@login_required
+def export_reservations_xls(request):
+    reservations = Reservation.objects.select_related(
+        "schedule__tour", "agency"
+    ).all()
+
+    workbook = openpyxl.Workbook()
+    worksheet = workbook.active
+    worksheet.title = "Reservas"
+
+    headers = [
+        "ID Reserva",
+        "Tour",
+        "Fecha",
+        "Hora",
+        "Cliente",
+        "Teléfono",
+        "Pax",
+        "Total a Pagar",
+        "A Pagar por Agencia",
+        "A Pagar por Cliente",
+        "Saldo Pendiente",
+        "Agencia",
+        "Estado",
+    ]
+    worksheet.append(headers)
+
+    for r in reservations:
+        worksheet.append([
+            r.id,
+            r.schedule.tour.tour_name,
+            r.schedule.date,
+            r.schedule.start_time,
+            r.customer_name,
+            r.customer_phone,
+            r.pax,
+            r.total_to_pay,
+            r.expected_agency_payment,
+            r.expected_customer_payment,
+            r.pending_balance,
+            r.agency.name if r.agency else "N/A",
+            r.status,
+        ])
+
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = "attachment; filename=reservas.xlsx"
+    workbook.save(response)
+
+    return response

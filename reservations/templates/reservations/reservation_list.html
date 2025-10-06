@@ -20,10 +20,18 @@
                 Reservas para {{ schedule.tour.tour_name }}
             {% endif %}
         </h2>
+        {% if not general %}
         <a href="" class="btn-crear-reserva">
             <span class="material-symbols-outlined">add_circle</span>
             Nueva Reserva
         </a>
+        {% endif %}
+        {% if general %}
+        <a href="{% url 'tours:export_reservations_xls' %}" class="btn-exportar">
+            <span class="material-symbols-outlined">download</span>
+            Exportar a Excel
+        </a>
+        {% endif %}
     </div>
 
     {% if not general %}

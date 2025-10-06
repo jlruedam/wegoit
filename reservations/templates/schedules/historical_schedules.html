@@ -1,5 +1,6 @@
 {% extends "layouts/base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Histórico de Programaciones{% endblock %}
 
@@ -19,21 +20,25 @@
                 <th>Hora</th>
                 <th>Capacidad</th>
                 <th>Cupos Disponibles</th>
+                <th>Venta Total</th>
+                <th>Pago Pendiente</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for schedule in schedules %}
+            {% for data in schedules_data %}
             <tr>
-                <td>{{ schedule.tour.tour_name }}</td>
-                <td>{{ schedule.date|date:"Y-m-d" }}</td>
-                <td>{{ schedule.start_time }}</td>
-                <td>{{ schedule.capacity }}</td>
-                <td>{{ schedule.available_spots }}</td>
-                <td>{% if schedule.opened %}Abierto{% else %}Cerrado{% endif %}</td>
+                <td>{{ data.schedule.tour.tour_name }}</td>
+                <td>{{ data.schedule.date|date:"Y-m-d" }}</td>
+                <td>{{ data.schedule.start_time }}</td>
+                <td>{{ data.schedule.capacity }}</td>
+                <td>{{ data.schedule.available_spots }}</td>
+                <td>${{ data.total_sales|floatformat:0|intcomma }}</td>
+                <td>${{ data.pending_total|floatformat:0|intcomma }}</td>
+                <td>{% if data.schedule.opened %}Abierto{% else %}Cerrado{% endif %}</td>
                 <td>
-                    <a href="{% url 'tours:reservation_list' schedule.id %}">
+                    <a href="{% url 'tours:reservation_list' data.schedule.id %}">
                         <span class="material-symbols-outlined">visibility</span> Ver Reservas
                     </a>
                 </td>

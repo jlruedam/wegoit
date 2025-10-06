@@ -411,5 +411,18 @@ def export_schedule_reservations_xls(request, schedule_id):
 
 @login_required
 def historical_schedules(request):
-    schedules = TourSchedule.objects.all().order_by('-date', '-start_time')
-    return render(request, "schedules/historical_schedules.html", {"schedules": schedules})
+    schedules_data = []
+    all_schedules = TourSchedule.objects.all().order_by('-date', '-start_time')
+
+    for schedule in all_schedules:
+        reservations = schedule.reservations.all()
+        total_sales = reservations.aggregate(total=Sum("total_to_pay"))["total"] or 0
+        pending_total = sum(r.pending_balance for r in reservations)
+
+        schedules_data.append({
+            "schedule": schedule,
+            "total_sales": float(total_sales),
+            "pending_total": float(pending_total),
+        })
+
+    return render(request, "schedules/historical_schedules.html", {"schedules_data": schedules_data})

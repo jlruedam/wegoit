@@ -22,6 +22,7 @@
                 <th>Cupos Disponibles</th>
                 <th>Venta Total</th>
                 <th>Pago Pendiente</th>
+                <th>Pendiente Agencia</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -36,6 +37,7 @@
                 <td>{{ data.schedule.available_spots }}</td>
                 <td>${{ data.total_sales|floatformat:0|intcomma }}</td>
                 <td>${{ data.pending_total|floatformat:0|intcomma }}</td>
+                <td>${{ data.pending_agency_total|floatformat:0|intcomma }}</td>
                 <td>{% if data.schedule.opened %}Abierto{% else %}Cerrado{% endif %}</td>
                 <td>
                     <a href="{% url 'tours:reservation_list' data.schedule.id %}">

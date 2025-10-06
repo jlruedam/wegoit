@@ -418,11 +418,13 @@ def historical_schedules(request):
         reservations = schedule.reservations.all()
         total_sales = reservations.aggregate(total=Sum("total_to_pay"))["total"] or 0
         pending_total = sum(r.pending_balance for r in reservations)
+        pending_agency_total = sum(r.pending_agency_balance for r in reservations)
 
         schedules_data.append({
             "schedule": schedule,
             "total_sales": float(total_sales),
             "pending_total": float(pending_total),
+            "pending_agency_total": float(pending_agency_total),
         })
 
     return render(request, "schedules/historical_schedules.html", {"schedules_data": schedules_data})

@@ -55,6 +55,21 @@ def tour_list(request):
 
     return render(request, "tours/tour_list.html",ctx)
 
+@login_required
+def tour_update(request, pk):
+    tour = get_object_or_404(Tour, pk=pk)
+    if request.method == "POST":
+        form = TourForm(request.POST, instance=tour)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({"success": True, "message": "Tour actualizado correctamente."}) # Return JSON for AJAX
+        else:
+            return JsonResponse({"success": False, "errors": form.errors}) # Return errors for AJAX
+    else:
+        # This part might not be strictly necessary if modal always loads via JS, but good for direct access
+        form = TourForm(instance=tour)
+    return JsonResponse({"success": False, "message": "Método no permitido"}) # Or render a form if accessed directly via GET
+
 # ---------------- SCHEDULE ----------------
 @login_required
 def schedule_list(request, tour_id):

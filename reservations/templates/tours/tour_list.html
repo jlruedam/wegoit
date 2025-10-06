@@ -23,6 +23,7 @@
                 <th>Precio Base</th>
                 <th>Capacidad</th>
                 <th>Acciones</th>
+                <th>Editar</th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +34,17 @@
                 <td>{{ tour.default_capacity }}</td>
                 <td>
                     <a href="{% url 'tours:schedule_list' tour.id %}">Ver Horarios</a>
+                </td>
+                <td>
+                    <button class="editTourBtn btn-apertura-tour"
+                            data-tour-id="{{ tour.id }}"
+                            data-tour-name="{{ tour.tour_name }}"
+                            data-tour-description="{{ tour.tour_description }}"
+                            data-tour-base-price="{{ tour.base_price }}"
+                            data-tour-default-capacity="{{ tour.default_capacity }}"
+                            data-tour-is-active="{{ tour.is_active|yesno:'true,false' }}">
+                        Editar
+                    </button>
                 </td>
             </tr>
             {% endfor %}

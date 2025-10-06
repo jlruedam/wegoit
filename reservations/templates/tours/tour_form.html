@@ -1,8 +1,8 @@
 
 
-<form method="post" class="form">
+<form method="post" class="form" id="tourForm">
     {% csrf_token %}
-    <h2 class="form__title">Crear Tour</h2>
+    <h2 class="form__title" id="modalTourTitle">Crear Tour</h2>
 
     <div class="form__container">
     {{ form.non_field_errors }}

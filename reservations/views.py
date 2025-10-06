@@ -70,11 +70,25 @@ def create_reservation(request, schedule_id):
     if request.method == "POST":
         form = ReservationForm(request.POST, schedule=schedule)
         if form.is_valid():
+            pax_to_reserve = form.cleaned_data['pax']
+            if pax_to_reserve > schedule.available_spots:
+                messages.error(request, f"No hay suficientes cupos disponibles. Cupos disponibles: {schedule.available_spots}")
+                return render(request, "reservations/reservation_form.html", {
+                    "form": form,
+                    "schedule": schedule,
+                })
+
             reservation = form.save(commit=False)
             reservation.schedule = schedule  # asegurar el horario
             reservation.status = "Reservado"  # asegurar estado
             reservation.created_by = request.user
             reservation.save()
+
+            # Verificar si la programación se llenó y cerrarla
+            if schedule.available_spots == 0:
+                schedule.opened = False
+                schedule.save()
+
             return redirect("tours:home")
     else:
         form = ReservationForm(schedule=schedule)

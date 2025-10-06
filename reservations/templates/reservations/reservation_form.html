@@ -16,6 +16,11 @@
     </div>
 
     <div class="reservation-form__group">
+        <label>Cupos Disponibles:</label>
+        <p>{{ schedule.available_spots }}</p>
+    </div>
+
+    <div class="reservation-form__group">
         {{ form.base_price.label_tag }}
         {{ form.base_price }}
     </div>

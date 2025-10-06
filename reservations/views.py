@@ -305,6 +305,7 @@ def export_reservations_xls(request):
         "A Pagar por Cliente",
         "Saldo Pendiente",
         "Agencia",
+        "NIT Agencia",
         "Estado",
     ]
     worksheet.append(headers)
@@ -323,6 +324,7 @@ def export_reservations_xls(request):
             r.expected_customer_payment,
             r.pending_balance,
             r.agency.name if r.agency else "N/A",
+            r.agency.tax_id if r.agency else "N/A",
             r.status,
         ])
 

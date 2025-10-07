@@ -17,10 +17,15 @@ import openpyxl
 @login_required
 def home(request):
     if request.method == "POST":
-        form = TourScheduleForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return redirect("tours:home")
+        try:
+            form = TourScheduleForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return JsonResponse({"success": True, "message": "Horario creado correctamente."}) # Return JSON for AJAX
+            else:
+                return JsonResponse({"success": False, "errors": form.errors}) # Return errors for AJAX
+        except Exception as e:
+            return JsonResponse({"success": False, "message": f"Error interno del servidor: {str(e)}"}, status=500)
     
     close_old_schedules() # Call the function to close old schedules
 

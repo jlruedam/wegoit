@@ -44,7 +44,7 @@ document.querySelectorAll('.editTourBtn').forEach(button => {
         const tourDescription = this.dataset.tourDescription;
         const tourBasePrice = this.dataset.tourBasePrice;
         const tourDefaultCapacity = this.dataset.tourDefaultCapacity;
-        const tourIsActive = this.dataset.tourIsActive === 'true';
+        const tourActive = this.dataset.tourActive === 'true';
 
         if (modalTourTitle) {
             modalTourTitle.textContent = 'Editar Tour';
@@ -55,7 +55,7 @@ document.querySelectorAll('.editTourBtn').forEach(button => {
             const nameInput = document.getElementById('id_tour_name');
             if (nameInput) nameInput.value = tourName;
 
-            const descriptionInput = document.getElementById('id_tour_description');
+            const descriptionInput = document.getElementById('id_description');
             if (descriptionInput) descriptionInput.value = tourDescription;
 
             const basePriceInput = document.getElementById('id_base_price');
@@ -64,8 +64,8 @@ document.querySelectorAll('.editTourBtn').forEach(button => {
             const defaultCapacityInput = document.getElementById('id_default_capacity');
             if (defaultCapacityInput) defaultCapacityInput.value = tourDefaultCapacity;
 
-            const isActiveInput = document.getElementById('id_is_active');
-            if (isActiveInput) isActiveInput.checked = tourIsActive;
+            const activeInput = document.getElementById('id_active');
+            if (activeInput) activeInput.checked = tourActive;
         }
         
         modalTour.style.display = "flex"; // Abrir el modal

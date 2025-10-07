@@ -52,21 +52,21 @@ def home(request):
 # ---------------- TOUR ----------------
 @login_required
 def tour_list(request):
-    tours = Tour.objects.all()
     if request.method == "POST":
         form = TourForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("tours:tour_list")  # redirige a la lista de tours
-    else:
-        form = TourForm()
+            return JsonResponse({"success": True, "message": "Tour creado correctamente."})
+        else:
+            return JsonResponse({"success": False, "errors": form.errors})
 
+    tours = Tour.objects.all()
+    form = TourForm()
     ctx = {
         "form": form,
         "tours": tours
     }
-
-    return render(request, "tours/tour_list.html",ctx)
+    return render(request, "tours/tour_list.html", ctx)
 
 @login_required
 def tour_update(request, pk):

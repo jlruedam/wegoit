@@ -52,15 +52,22 @@
         <span class="modalScheduleTour__close" id="closeModalScheduleTourBtn">&times;</span>
         <!-- <h2 class="modalScheduleTour__title">Título del Modal</h2> -->
        
-        {% include "schedules/tour_schedule_form.html"%}
-    </div>
-</div>
-
-
-{% endblock %}
+        {% include "schedules/tour_schedule_form.html" with tours=tours %}
+    {% endblock %}
 
 {% block extra_js %}
-<!-- <script src="{% static 'tours/js/dashboard.js' %}"></script> -->
+<script>
+    // Diccionario con los defaults de cada tour
+    window.tourDefaults = {}; // Initialize as empty object
+    console.log('Tours in context (before loop):', {{ tours|length }}); // Log number of tours
+    {% for tour in tours %}
+    window.tourDefaults["{{ tour.id }}"] = {
+        "capacity": {% if tour.default_capacity is not None %}{{ tour.default_capacity }}{% else %}null{% endif %},
+        "start_time": {% if tour.default_start_time %}"{{ tour.default_start_time|time:'H:i' }}"{% else %}null{% endif %}
+    };
+    console.log('Added tour to tourDefaults:', "{{ tour.id }}");
+    {% endfor %}
+    console.log('tourDefaults defined:', window.tourDefaults);
+</script>
 <script src="{% static 'assets/js/modalScheduleTour.js' %}"></script>
 {% endblock %}
-

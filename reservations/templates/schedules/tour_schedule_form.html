@@ -1,10 +1,7 @@
 {% load static %}
-
-<link rel="stylesheet" href="{% static 'css/form.css' %}">
-
 <div class="form">
-    <h2 class="form__title">Crear Horario de Tour</h2>
-    <form method="post" class="form__container">
+    <h2 class="form__title" id="modalScheduleTourTitle">Crear Horario de Tour</h2>
+    <form method="post" class="form__container" id="scheduleForm">
         {% csrf_token %}
         
         <div class="form__group">
@@ -35,34 +32,3 @@
         <button type="submit" class="form__button">Guardar</button>
     </form>
 </div>
-
-<script>
-    // Diccionario con los defaults de cada tour
-    const tourDefaults = {
-        {% for tour in tours %}
-        "{{ tour.id }}": {
-            "capacity": {{ tour.default_capacity }},
-            "start_time": "{% if tour.default_start_time %}{{ tour.default_start_time|time:'H:i' }}{% else %}""{% endif %}"
-        },
-        {% endfor %}
-    };
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const tourSelect = document.getElementById("id_tour");
-        const capacityInput = document.getElementById("id_capacity");
-        const startTimeInput = document.getElementById("id_start_time");
-
-        // Evento cuando cambia el Tour
-        tourSelect.addEventListener("change", (e) => {
-            const selected = tourDefaults[e.target.value];
-            if (selected) {
-                if (selected.capacity) {
-                    capacityInput.value = selected.capacity;
-                }
-                if (selected.start_time) {
-                    startTimeInput.value = selected.start_time;
-                }
-            }
-        });
-    });
-</script>

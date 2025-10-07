@@ -211,6 +211,9 @@ def agency_create(request):
         form = AgencyForm(request.POST)
         if form.is_valid():
             form.save()
+            return JsonResponse({"success": True, "message": "Agencia creada correctamente."})
+        else:
+            return JsonResponse({"success": False, "errors": form.errors})
     return redirect("tours:agency_list")
 
 @login_required

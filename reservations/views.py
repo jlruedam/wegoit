@@ -26,7 +26,15 @@ def home(request):
 
     tours = Tour.objects.all()
     schedules = TourSchedule.objects.filter(opened = True)
-    form = TourScheduleForm()
+
+    initial_data = {}
+    first_tour = Tour.objects.first()
+    if first_tour:
+        initial_data['tour'] = first_tour.id
+        initial_data['capacity'] = first_tour.default_capacity
+        initial_data['start_time'] = first_tour.default_start_time
+
+    form = TourScheduleForm(initial=initial_data)
 
     ctx = {
         "tours":tours,

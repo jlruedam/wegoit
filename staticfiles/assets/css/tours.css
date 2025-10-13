@@ -1,0 +1,107 @@
+.toursTable {
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 2rem;
+    max-width: 900px;
+}
+
+.toursTable__head {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.toursTable__title {
+    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    color: var(--azul-oscuro, #2d3748);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toursTable__btn {
+    background-color: var(--azul-oscuro, #3182ce);
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(49,130,206,0.08);
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.toursTable__btn:hover {
+    background: #2563eb;
+    color: #e2e8f0;
+}
+
+.toursTable__table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    margin-bottom: 1.5rem;
+}
+
+.toursTable__table th {
+    background: var(--azul-oscuro, #3182ce);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.7rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.toursTable__table td {
+    background: #f7fafc;
+    color: #2d3748;
+    padding: 0.7rem;
+    font-size: 0.98rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.toursTable__table tr:nth-child(even) td {
+    background: #e2e8f0;
+}
+
+.action-link {
+    background: #38a169;
+    color: #fff;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+    margin-right: 0.5rem;
+    display: inline-block;
+}
+.action-link:hover {
+    background: #2f855a;
+}
+
+/* Modal mejoras */
+.modalTour__content {
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+    padding: 2rem;
+    background: #fff;
+}
+
+.modalTour__close {
+    font-size: 2rem;
+    color: #e53e3e;
+    cursor: pointer;
+    float: right;
+}

@@ -1,0 +1,376 @@
+h2 {
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    border: 1px solid #e2e8f0;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: center;
+}
+
+td {
+    font-size: 14px;
+}
+
+td:nth-child(5) { /* Agencia */
+    font-style: italic;
+}
+
+/* Contenedor principal de la lista de reservaciones */
+.reservations-list-container {
+    width: 100%;
+    margin: 20px auto;
+    padding: 1.5rem;
+    box-sizing: border-box; 
+    background: #fff;
+    box-shadow: 0 4px 18px rgba(13,89,106,0.10);
+    overflow: hidden; /* DataTables se encargará del overflow */
+}
+
+/* Estilos de la tabla para DataTables */
+#reservationTable {
+    width: 100% !important; /* Forzar el 100% para DataTables */
+    margin: 0;
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
+
+#reservationTable th, #scheduleTable th {
+    background: var(--azul-oscuro);
+    color: #fff;
+    font-weight: 700;
+    padding: 1rem 0.7rem;
+    font-size: 1.05rem;
+    text-align: center;
+    letter-spacing: 0.3px;
+    border: none;
+}
+
+#reservationTable td {
+    background: #f7fafc;
+    color: #2d3748;
+    padding: 0.8rem 0.7rem;
+    font-size: 1rem;
+    text-align: center;
+    vertical-align: middle;
+    border: none;
+    transition: background 0.2s;
+}
+
+#reservationTable tr:nth-child(even) td {
+    background: #e2e8f0;
+}
+
+#reservationTable tr:hover td {
+    background: #dbeafe;
+}
+
+.open-payment-modal, #reservationTable button {
+    background: #3182ce;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 1px 4px rgba(49,130,206,0.08);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+.open-payment-modal:hover, #reservationTable button:hover {
+    background: #2563eb;
+}
+
+#reservationTable a {
+    text-decoration: none;
+}
+
+.msg-success {
+    background: #38a169;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.msg-error {
+    background: #e53e3e;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Modal estilos */
+dialog#paymentModal {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(49,130,206,0.18);
+    padding: 2.5rem 2rem;
+    background: #fff;
+    max-width: 400px;
+    width: 90%;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+#paymentModal h3 {
+    color: #0D596A;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+}
+
+#paymentModal .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 1rem;
+}
+
+#paymentModal label {
+    font-size: 1rem;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+#paymentModal input,
+#paymentModal select,
+#paymentModal textarea {
+    padding: 8px 12px;
+    border: 1px solid #3182ce;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #f7fafc;
+    color: #2d3748;
+    transition: border 0.2s;
+}
+#paymentModal input:focus,
+#paymentModal select:focus,
+#paymentModal textarea:focus {
+    border-color: #0D596A;
+    outline: none;
+}
+
+#paymentModal .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 1.2rem;
+}
+
+#paymentModal .btn-primary {
+    background-color: #38a169;
+    color: #fff;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(56,161,105,0.08);
+}
+#paymentModal .btn-primary:hover {
+    background-color: #2f855a;
+}
+
+#paymentModal .btn-secondary {
+    background-color: #e53e3e;
+    color: #fff;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    transition: background 0.2s;
+}
+#paymentModal .btn-secondary:hover {
+    background-color: #c53030;
+}
+
+.dataTables_length,
+.dataTables_filter {
+    margin-bottom: 18px !important;
+    margin-top: 8px !important;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+/* Animación modal */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.schedule-info {
+    margin-bottom: 1.5rem;
+    background-color: var(--light-gray);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.schedule-info p {
+    margin: 0.5rem 0;
+}
+
+.saldo-pendiente {
+    color: #e53e3e; /* Red */
+    font-weight: bold;
+}
+
+.saldo-pagado {
+    color: #38a169; /* Green */
+    font-weight: bold;
+}
+
+.status-badge {
+    padding: 0.4rem 0.8rem; /* Slightly increased padding */
+    border-radius: 9999px; /* Pill shape */
+    font-size: 0.8rem; /* Slightly smaller font */
+    font-weight: 700; /* Bolder font */
+    color: white;
+    display: inline-flex; /* Ensure it behaves like a block for padding/sizing */
+    align-items: center;
+    justify-content: center;
+    min-width: 80px; /* Ensure minimum width for consistency */
+    text-transform: uppercase; /* Uppercase text */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.status-reservado {
+    background-color: var(--azul-marino, #1B9899); /* Using app's blue/teal */
+}
+
+.status-confirmado {
+    background-color: #38a169; /* A standard green */
+}
+
+.status-pagado {
+    background-color: #28a745; /* A slightly different green for paid */
+}
+
+.status-cancelado {
+    background-color: #e53e3e; /* Standard red */
+}
+
+.status-pendiente {
+    background-color: #ffc107; /* Yellow/Orange for pending */
+    color: #343a40;
+}
+
+.btn-ver-pagos {
+    background: #63b3ed; /* Light Blue */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-ver-pagos:hover {
+    background: #4299e1; /* Darker Light Blue */
+}
+
+/* --- STYLES FOR HEADER CONSISTENCY --- */
+
+.reservations-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.reservations-list-title {
+    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    color: var(--azul-oscuro, #2d3748);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-crear-reserva {
+    background-color: var(--azul-oscuro, #3182ce);
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(49,130,206,0.08);
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none; /* Ensure links look like buttons */
+}
+
+.btn-crear-reserva:hover {
+    background: #2563eb;
+    color: #e2e8f0;
+}
+
+.btn-exportar {
+    background-color: var(--azul-oscuro, #0D596A); /* Use app's primary color */
+    color: #fff;
+    border: none;
+    border-radius: 15px; /* Keep rounded corners */
+    width: 40px; /* Fixed width for square icon */
+    height: 40px; /* Fixed height for square icon */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the icon */
+    font-size: 1.2rem; /* Adjust icon size */
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(13, 89, 106, 0.1); /* Adjust shadow to match color */
+    transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+}
+
+.btn-exportar:hover {
+    background-color: var(--azul-marino, #1B9899); /* Use another app color for hover */
+    color: #e2e8f0;
+}
+
+.btn-volver {
+    background-color: transparent;
+    color: var(--azul-oscuro, #0D596A);
+    border: 1px solid transparent; /* Subtle border */
+    border-radius: 15px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none; /* Remove shadow */
+    transition: all 0.2s ease-in-out; /* Smooth transition for all properties */
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+}
+
+.btn-volver:hover {
+    background-color: rgba(13, 89, 106, 0.1); /* Light background on hover */
+    border-color: var(--azul-oscuro, #0D596A); /* Border on hover */
+    color: var(--azul-oscuro, #0D596A);
+}

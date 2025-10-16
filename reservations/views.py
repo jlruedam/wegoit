@@ -183,6 +183,16 @@ def update_reservation(request, reservation_id):
 
     return render(request, "reservations/reservation_form.html", {"form": form, "schedule": original_schedule, "updating": True})
 
+@login_required
+def delete_reservation(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+    if not reservation.schedule.opened:
+        messages.error(request, "No se puede eliminar una reserva de una programación cerrada.")
+        return redirect("tours:reservation_list_general")
+    reservation.delete()
+    messages.success(request, "Reserva eliminada correctamente.")
+    return redirect("tours:reservation_list_general")
+
 # ---------------- PAYMENTS ----------------
 @login_required
 @require_POST

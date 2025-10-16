@@ -13,6 +13,7 @@ urlpatterns = [
     path('schedules/reservations/', views.reservation_list_general, name='reservation_list_general'),
     path("reservations/<int:schedule_id>/create", views.create_reservation, name="create_reservation"),
     path("reservations/<int:reservation_id>/update/", views.update_reservation, name="update_reservation"),
+    path("reservations/<int:reservation_id>/delete/", views.delete_reservation, name="delete_reservation"),
     path("agencies/", views.agency_list, name="agency_list"),
     path("agencies/create/", views.agency_create, name="agency_create"),
     path("agencies/edit/<int:pk>/", views.agency_update, name="agency_edit"),

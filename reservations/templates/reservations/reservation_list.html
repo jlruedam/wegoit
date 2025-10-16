@@ -67,7 +67,10 @@
                 <th>Ver Pagos</th>
                 <th>Pendiente Agencia</th>
                 <th>Pendiente Cliente</th>
+                {% if request.user.is_staff %}
                 <th>Editar</th>
+                <th>Eliminar</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -106,6 +109,7 @@
                 </td>
                 <td>${{ r.pending_agency_balance|floatformat:0|intcomma }}</td>
                 <td>${{ r.pending_customer_balance|floatformat:0|intcomma }}</td>
+                {% if request.user.is_staff %}
                 <td>
                     <a href="{% url 'tours:update_reservation' r.id %}" title="Editar Reserva">
                         <button class="btn-ver-pagos">
@@ -113,6 +117,16 @@
                         </button>
                     </a>
                 </td>
+                <td>
+                    {% if r.schedule.opened %}
+                    <a href="{% url 'tours:delete_reservation' r.id %}" title="Eliminar Reserva" onclick="return confirm('¿Estás seguro de que quieres eliminar esta reserva?');">
+                        <button class="btn-ver-pagos">
+                            <span class="material-symbols-outlined">delete</span>
+                        </button>
+                    </a>
+                    {% endif %}
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

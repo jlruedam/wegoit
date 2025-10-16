@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalToPayInput = document.getElementById("id_total_to_pay");
     const expectedAgencyPayment = document.getElementById("id_expected_agency_payment");
     const expectedCustomerPayment = document.getElementById("id_expected_customer_payment");
+    const scheduleInput = document.getElementById("id_schedule");
+    const availableSpots = document.getElementById("available-spots");
 
 
     function updateTotalToPay() {
@@ -38,12 +40,25 @@ document.addEventListener("DOMContentLoaded", () => {
         
     }
 
+    function updateAvailableSpots() {
+        const scheduleId = scheduleInput.value;
+        if (scheduleId) {
+            fetch(`/schedules/${scheduleId}/available-spots/`)
+                .then(response => response.json())
+                .then(data => {
+                    availableSpots.textContent = data.available_spots;
+                });
+        }
+    }
+
     // Calcular cuando se escriba o cambie el número de personas
     paxInput.addEventListener("input", updateTotalToPay);
 
     //Validar la cantidad ingresada para la agencia se complementaria con la del cliente
     expectedAgencyPayment.addEventListener("input", calculateExpectedCustomer);
     expectedCustomerPayment.addEventListener("input", calculateExpectedAgency);
+
+    scheduleInput.addEventListener("change", updateAvailableSpots);
 
 
 

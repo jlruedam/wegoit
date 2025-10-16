@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block content %}
-<form id="reservation-form" class="reservation-form" method="post">
+<form id="reservation-form" class="reservation-form" method="post" action="{% if updating %}{% url 'tours:update_reservation' form.instance.id %}{% else %}{% url 'tours:create_reservation' schedule.id %}{% endif %}">
     {% csrf_token %}
-    <h2 class="reservation-form__title">Nueva Reserva</h2>
+    <h2 class="reservation-form__title">{% if updating %}Editar Reserva{% else %}Nueva Reserva{% endif %}</h2>
 
     <div class="reservation-form__group">
         {{ form.schedule.label_tag }}
@@ -17,7 +17,7 @@
 
     <div class="reservation-form__group">
         <label>Cupos Disponibles:</label>
-        <p>{{ schedule.available_spots }}</p>
+        <p id="available-spots">{{ schedule.available_spots }}</p>
     </div>
 
     <div class="reservation-form__group">
@@ -57,11 +57,6 @@
     </div>
 
     <div class="reservation-form__group">
-        {{ form.total_pending_balance.label_tag }}
-        {{ form.total_pending_balance }}
-    </div>
-
-    <div class="reservation-form__group">
         {{ form.expected_agency_payment.label_tag }}
         {{ form.expected_agency_payment }}
     </div>
@@ -83,7 +78,7 @@
 
     <div class="reservation-form__actions">
         <button type="submit" class="reservation-form__btn reservation-form__btn--primary">
-            Guardar
+            {% if updating %}Actualizar{% else %}Guardar{% endif %}
         </button>
         <a href="javascript:history.back()" class="reservation-form__btn reservation-form__btn--secondary">
             Cancelar

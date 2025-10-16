@@ -147,6 +147,42 @@ def reservation_list_general(request):
         "reservations": reservations, "general":True
     })
 
+@login_required
+def update_reservation(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+    original_schedule = reservation.schedule
+
+    if request.method == "POST":
+        form = ReservationForm(request.POST, instance=reservation, schedule=original_schedule, updating=True)
+        if form.is_valid():
+            new_schedule = form.cleaned_data.get('schedule')
+            pax_to_reserve = form.cleaned_data.get('pax')
+
+            # Si el horario ha cambiado, validar la disponibilidad
+            if new_schedule and new_schedule != original_schedule:
+                if pax_to_reserve > new_schedule.available_spots:
+                    messages.error(request, f"No hay suficientes cupos para el nuevo horario. Cupos disponibles: {new_schedule.available_spots}")
+                    return render(request, "reservations/reservation_form.html", {"form": form, "schedule": original_schedule, "updating": True})
+
+            reservation = form.save(commit=False)
+            reservation.updated_by = request.user
+            reservation.save()
+
+            # Si el horario cambió, ajustar la disponibilidad de ambos horarios
+            if new_schedule and new_schedule != original_schedule:
+                original_schedule.opened = True
+                original_schedule.save()
+                if new_schedule.available_spots == 0:
+                    new_schedule.opened = False
+                    new_schedule.save()
+            
+            messages.success(request, "Reserva actualizada correctamente.")
+            return redirect("tours:reservation_list_general")
+    else:
+        form = ReservationForm(instance=reservation, schedule=original_schedule, updating=True)
+
+    return render(request, "reservations/reservation_form.html", {"form": form, "schedule": original_schedule, "updating": True})
+
 # ---------------- PAYMENTS ----------------
 @login_required
 @require_POST
@@ -486,3 +522,8 @@ def historical_schedules(request):
         })
 
     return render(request, "schedules/historical_schedules.html", {"schedules_data": schedules_data})
+
+
+def get_available_spots(request, schedule_id):
+    schedule = get_object_or_404(TourSchedule, id=schedule_id)
+    return JsonResponse({'available_spots': schedule.available_spots})

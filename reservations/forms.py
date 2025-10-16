@@ -59,6 +59,12 @@ class ReservationForm(forms.ModelForm):
         disabled=True,  # solo lectura
     )
 
+    schedule = forms.ModelChoiceField(
+        queryset=TourSchedule.objects.filter(opened=True),
+        label="Programación",
+        widget=forms.Select(attrs={"class": "form-control"})
+    )
+
     class Meta:
         model = Reservation
         fields = [
@@ -89,12 +95,17 @@ class ReservationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         schedule = kwargs.pop("schedule", None)
+        updating = kwargs.pop("updating", False)
         super().__init__(*args, **kwargs)
+
+        if self.instance and self.instance.pk:
+            schedule = self.instance.schedule
 
         if schedule:
             self.fields["schedule"].initial = schedule
-            self.fields["schedule"].disabled = True
             self.fields["base_price"].initial = schedule.tour.base_price
+            if not updating:
+                self.fields["schedule"].disabled = True
 
         # ⚡ Aquí forzamos que agency sea obligatorio
         self.fields["agency"].required = True  

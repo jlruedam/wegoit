@@ -67,6 +67,7 @@
                 <th>Ver Pagos</th>
                 <th>Pendiente Agencia</th>
                 <th>Pendiente Cliente</th>
+                <th>Editar</th>
             </tr>
         </thead>
         <tbody>
@@ -105,6 +106,13 @@
                 </td>
                 <td>${{ r.pending_agency_balance|floatformat:0|intcomma }}</td>
                 <td>${{ r.pending_customer_balance|floatformat:0|intcomma }}</td>
+                <td>
+                    <a href="{% url 'tours:update_reservation' r.id %}" title="Editar Reserva">
+                        <button class="btn-ver-pagos">
+                            <span class="material-symbols-outlined">edit</span>
+                        </button>
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
